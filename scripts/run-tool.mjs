@@ -58,6 +58,10 @@ if (tool === 'tsc' && discoveredTypeRoots.length > 0) {
 const env = {
   ...process.env,
 }
-const result = spawnSync(binary, forwardedArgs, { cwd: root, env, stdio: 'inherit' })
+// On Windows, npm installs .bin entries as tsc.cmd/tsdown.cmd shims; spawning
+// the bare name fails with ENOENT. Use the shim there and shell-free direct
+// spawn elsewhere.
+const windowsBinary = process.platform === 'win32' && !binary.endsWith('.cmd') ? binary + '.cmd' : binary
+const result = spawnSync(windowsBinary, forwardedArgs, { cwd: root, env, stdio: 'inherit' })
 if (result.error) throw result.error
 process.exitCode = result.status ?? 1
