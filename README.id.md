@@ -72,7 +72,7 @@ Mesin ekstraksi Noema menggabungkan segmentasi kata jieba dengan sinyal presisi 
 
 ### ⚡ Muat Ulang Panas
 
-Setelah boot pertama, plugin tidak pernah perlu dimulai ulang lagi: `npm run build` memuat ulang panas plugin host melalui Cordis HMR, dan `npm run build:client` menukar panas bundel browser melalui kanal SSE client-hmr.
+Setelah boot pertama, plugin tidak pernah perlu dimulai ulang lagi: `pnpm run build` memuat ulang panas plugin host melalui Cordis HMR, dan `ppnpm run build:client` menukar panas bundel browser melalui kanal SSE client-hmr.
 
 </td>
 </tr>
@@ -164,7 +164,7 @@ Kartu status menampilkan kesehatan server dengan aksi mulai ulang/hentikan, dan 
 
 Mesin HMR DSH dapat digunakan sepenuhnya setelah plugin dimuat sekali:
 
-- **Host plugin** — aktifkan entri Cordis HMR di patch profil dengan watch root diarahkan ke keluaran `lib/` paket ini, dan pertahankan dependensi `link:`. Jalankan `npm run build` dan DSH yang sedang berjalan akan memuat ulang entri plugin secara otomatis (proses anak server Noema dimulai ulang oleh pemuatan ulang) — tanpa mulai ulang server.
+- **Host plugin** — aktifkan entri Cordis HMR di patch profil dengan watch root diarahkan ke keluaran `lib/` paket ini, dan pertahankan dependensi `link:`. Jalankan `pnpm run build` dan DSH yang sedang berjalan akan memuat ulang entri plugin secara otomatis (proses anak server Noema dimulai ulang oleh pemuatan ulang) — tanpa mulai ulang server.
 
   ```yaml
   # ~/.dsh/profiles/<profile>/cordis.patch.yml
@@ -175,7 +175,7 @@ Mesin HMR DSH dapat digunakan sepenuhnya setelah plugin dimuat sekali:
         - /path/to/dsh-noema/lib
   ```
 
-- **Client bundle** — `npm run build:client` menulis ulang `lib/client.js`; bagian node client-hmr melakukan stat-poll pada setiap graph bundle (bawaan 500ms) dan menyiarkan frame `rebuilt` melalui kanal SSE `/plugins/events`, dan browser menukar panas modul tanpa me-refresh halaman.
+- **Client bundle** — `ppnpm run build:client` menulis ulang `lib/client.js`; bagian node client-hmr melakukan stat-poll pada setiap graph bundle (bawaan 500ms) dan menyiarkan frame `rebuilt` melalui kanal SSE `/plugins/events`, dan browser menukar panas modul tanpa me-refresh halaman.
 - **Settings** — setiap perubahan di halaman pengaturan Noema Memory diterapkan langsung melalui layanan pengaturan.
 
 Satu hal yang tidak dapat dilakukan muat ulang panas adalah memuat plugin yang tidak pernah ada di pohon yang di-boot: komposisi yang sedang berjalan tidak memantau lapisan patch profil (aplikasi web tidak memasang `watchUserPatches`) maupun mengekspos API mutasi pemuat (RPC inventaris plugin bersifat hanya-baca). Oleh karena itu, plugin baru membutuhkan tepat satu kali mulai ulang server, setelah itu loop di atas sepenuhnya panas.
@@ -183,9 +183,9 @@ Satu hal yang tidak dapat dilakukan muat ulang panas adalah memuat plugin yang t
 ## Pengembangan
 
 ```sh
-npm install
-npm run build     # host tsc + client tsdown bundle
-npm test          # build + node --test tests/
+pnpm install
+pnpm run build     # host tsc + client tsdown bundle
+pnpm test          # build + node --test tests/
 ```
 
 Pengujian e2e berjalan terhadap `noema/target/debug/noema-mcp` ketika tersedia (jika tidak, akan dilewati).

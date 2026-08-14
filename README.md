@@ -72,7 +72,7 @@ Noema's extraction engine combines jieba word segmentation with high-precision s
 
 ### ⚡ Hot Reload
 
-After the first boot, the plugin never needs a restart again: `npm run build` hot-reloads the host plugin through Cordis HMR, and `npm run build:client` hot-swaps the browser bundle over the client-hmr SSE channel.
+After the first boot, the plugin never needs a restart again: `pnpm run build` hot-reloads the host plugin through Cordis HMR, and `ppnpm run build:client` hot-swaps the browser bundle over the client-hmr SSE channel.
 
 </td>
 </tr>
@@ -164,7 +164,7 @@ The status card shows server health with restart/stop actions, and the import se
 
 DSH's HMR machinery is fully usable once the plugin has been loaded once:
 
-- **Host plugin** — enable the Cordis HMR entry in the profile patch with its watch root pointed at this package's `lib/` output, and keep the `link:` dependency. Run `npm run build` and the running DSH reloads the plugin entry automatically (the Noema server child is restarted by the reload) — no server restart.
+- **Host plugin** — enable the Cordis HMR entry in the profile patch with its watch root pointed at this package's `lib/` output, and keep the `link:` dependency. Run `pnpm run build` and the running DSH reloads the plugin entry automatically (the Noema server child is restarted by the reload) — no server restart.
 
   ```yaml
   # ~/.dsh/profiles/<profile>/cordis.patch.yml
@@ -175,7 +175,7 @@ DSH's HMR machinery is fully usable once the plugin has been loaded once:
         - /path/to/dsh-noema/lib
   ```
 
-- **Client bundle** — `npm run build:client` rewrites `lib/client.js`; the client-hmr node half stat-polls every graph bundle (default 500ms) and broadcasts a `rebuilt` frame over the `/plugins/events` SSE channel, and the browser hot-swaps the module without a page refresh.
+- **Client bundle** — `ppnpm run build:client` rewrites `lib/client.js`; the client-hmr node half stat-polls every graph bundle (default 500ms) and broadcasts a `rebuilt` frame over the `/plugins/events` SSE channel, and the browser hot-swaps the module without a page refresh.
 - **Settings** — every change made on the Noema Memory settings page applies live through the settings service.
 
 The one thing hot-reload cannot do is load a plugin that was never in the booted tree: the running composition neither watches the profile patch layer (the web app does not wire `watchUserPatches`) nor exposes a loader mutation API (the plugin inventory RPC is read-only). A fresh plugin therefore needs exactly one server restart, after which the loop above is fully hot.
@@ -183,9 +183,9 @@ The one thing hot-reload cannot do is load a plugin that was never in the booted
 ## Develop
 
 ```sh
-npm install
-npm run build     # host tsc + client tsdown bundle
-npm test          # build + node --test tests/
+pnpm install
+pnpm run build     # host tsc + client tsdown bundle
+pnpm test          # build + node --test tests/
 ```
 
 The e2e test runs against `noema/target/debug/noema-mcp` when present (it is skipped otherwise).

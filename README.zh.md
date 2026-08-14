@@ -72,7 +72,7 @@ Noema 的抽取引擎将 jieba 分词与高精度信号 —— 英文专有名�
 
 ### ⚡ 热重载
 
-首次启动后，插件就再也无需重启：`npm run build` 通过 Cordis HMR 热重载宿主插件，`npm run build:client` 则通过 client-hmr 的 SSE 通道热替换浏览器包。
+首次启动后，插件就再也无需重启：`pnpm run build` 通过 Cordis HMR 热重载宿主插件，`ppnpm run build:client` 则通过 client-hmr 的 SSE 通道热替换浏览器包。
 
 </td>
 </tr>
@@ -164,7 +164,7 @@ dsh web
 
 插件加载过一次之后，DSH 的 HMR 机制即可完全使用：
 
-- **宿主插件** —— 在 profile patch 中启用 Cordis HMR 条目，并将其监听根目录指向本包的 `lib/` 输出目录，同时保留 `link:` 依赖。运行 `npm run build` 后，正在运行的 DSH 会自动重载插件入口（重载会重启 Noema 服务器子进程）—— 无需重启服务器。
+- **宿主插件** —— 在 profile patch 中启用 Cordis HMR 条目，并将其监听根目录指向本包的 `lib/` 输出目录，同时保留 `link:` 依赖。运行 `pnpm run build` 后，正在运行的 DSH 会自动重载插件入口（重载会重启 Noema 服务器子进程）—— 无需重启服务器。
 
   ```yaml
   # ~/.dsh/profiles/<profile>/cordis.patch.yml
@@ -175,7 +175,7 @@ dsh web
         - /path/to/dsh-noema/lib
   ```
 
-- **客户端包** —— `npm run build:client` 会重写 `lib/client.js`；client-hmr 的 node 端会轮询每个 graph 包的 stat（默认 500ms），并通过 `/plugins/events` SSE 通道广播 `rebuilt` 帧，浏览器便可在不刷新页面的情况下热替换模块。
+- **客户端包** —— `ppnpm run build:client` 会重写 `lib/client.js`；client-hmr 的 node 端会轮询每个 graph 包的 stat（默认 500ms），并通过 `/plugins/events` SSE 通道广播 `rebuilt` 帧，浏览器便可在不刷新页面的情况下热替换模块。
 - **设置** —— 在 Noema Memory 设置页上所做的每项更改都会通过设置服务实时生效。
 
 热重载唯一做不到的是加载一个从未出现在启动树中的插件：运行中的组合既不监听 profile patch 层（Web 应用未接入 `watchUserPatches`），也不暴露加载器变更 API（插件清单 RPC 是只读的）。因此，一个全新插件恰好需要重启一次服务器，之后上述循环便完全可热重载。
@@ -183,9 +183,9 @@ dsh web
 ## 开发
 
 ```sh
-npm install
-npm run build     # host tsc + client tsdown bundle
-npm test          # build + node --test tests/
+pnpm install
+pnpm run build     # host tsc + client tsdown bundle
+pnpm test          # build + node --test tests/
 ```
 
 e2e 测试会在存在 `noema/target/debug/noema-mcp` 时针对它运行（否则会被跳过）。

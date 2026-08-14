@@ -72,7 +72,7 @@ Noema의 추출 엔진은 jieba 단어 분할과 영어 고유명사, CJK 이름
 
 ### ⚡ 핫 리로드
 
-최초 부팅 후에는 플러그인을 다시 시작할 필요가 없습니다. `npm run build`가 Cordis HMR을 통해 호스트 플러그인을 핫 리로드하고, `npm run build:client`가 client-hmr SSE 채널을 통해 브라우저 번들을 핫 스왑합니다.
+최초 부팅 후에는 플러그인을 다시 시작할 필요가 없습니다. `pnpm run build`가 Cordis HMR을 통해 호스트 플러그인을 핫 리로드하고, `ppnpm run build:client`가 client-hmr SSE 채널을 통해 브라우저 번들을 핫 스왑합니다.
 
 </td>
 </tr>
@@ -164,7 +164,7 @@ dsh web
 
 플러그인이 한 번 로드되면 DSH의 HMR 기반 시설을 완전히 사용할 수 있습니다.
 
-- **호스트 플러그인** — 프로필 패치에서 Cordis HMR 항목을 활성화하고 watch root를 이 패키지의 `lib/` 출력으로 지정한 뒤, `link:` 의존성을 유지합니다. `npm run build`를 실행하면 실행 중인 DSH가 플러그인 항목을 자동으로 다시 로드합니다(리로드 시 Noema 서버 자식 프로세스도 재시작됨) — 서버 재시작이 필요 없습니다.
+- **호스트 플러그인** — 프로필 패치에서 Cordis HMR 항목을 활성화하고 watch root를 이 패키지의 `lib/` 출력으로 지정한 뒤, `link:` 의존성을 유지합니다. `pnpm run build`를 실행하면 실행 중인 DSH가 플러그인 항목을 자동으로 다시 로드합니다(리로드 시 Noema 서버 자식 프로세스도 재시작됨) — 서버 재시작이 필요 없습니다.
 
   ```yaml
   # ~/.dsh/profiles/<profile>/cordis.patch.yml
@@ -175,7 +175,7 @@ dsh web
         - /path/to/dsh-noema/lib
   ```
 
-- **클라이언트 번들** — `npm run build:client`가 `lib/client.js`를 다시 씁니다. client-hmr 노드 쪽은 각 graph 번들을 stat 폴링(기본 500ms)하고 `/plugins/events` SSE 채널을 통해 `rebuilt` 프레임을 브로드캐스트하며, 브라우저는 페이지 새로고침 없이 모듈을 핫 스왑합니다.
+- **클라이언트 번들** — `ppnpm run build:client`가 `lib/client.js`를 다시 씁니다. client-hmr 노드 쪽은 각 graph 번들을 stat 폴링(기본 500ms)하고 `/plugins/events` SSE 채널을 통해 `rebuilt` 프레임을 브로드캐스트하며, 브라우저는 페이지 새로고침 없이 모듈을 핫 스왑합니다.
 - **설정** — Noema 메모리 설정 페이지에서 변경한 모든 내용은 settings 서비스를 통해 즉시 적용됩니다.
 
 핫 리로드가 하지 못하는 유일한 일은 부팅된 트리에 한 번도 없었던 플러그인을 로드하는 것입니다. 실행 중인 composition은 프로필 패치 레이어를 감시하지 않으며(웹 앱이 `watchUserPatches`를 연결하지 않음), 로더 변경 API도 노출하지 않습니다(플러그인 인벤토리 RPC는 읽기 전용입니다). 따라서 새 플러그인에는 정확히 한 번의 서버 재시작이 필요하고, 그 후에는 위 루프가 완전히 핫하게 동작합니다.
@@ -183,9 +183,9 @@ dsh web
 ## 개발
 
 ```sh
-npm install
-npm run build     # host tsc + client tsdown bundle
-npm test          # build + node --test tests/
+pnpm install
+pnpm run build     # host tsc + client tsdown bundle
+pnpm test          # build + node --test tests/
 ```
 
 e2e 테스트는 `noema/target/debug/noema-mcp`가 있으면 그것을 대상으로 실행됩니다(없으면 건너뜁니다).

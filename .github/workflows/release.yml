@@ -39,10 +39,14 @@ jobs:
           submodules: recursive
           persist-credentials: false
 
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
       - uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: npm
+          cache: pnpm
 
       - name: Select and validate release version
         id: release
@@ -56,10 +60,10 @@ jobs:
           node -e "const p=require('./platforms.json'); process.stdout.write('matrix='+JSON.stringify({include:p})+'\n')" >> "$GITHUB_OUTPUT"
 
       - name: Install JavaScript dependencies
-        run: npm install --ignore-scripts
+        run: pnpm install --frozen-lockfile
 
       - name: Validate plugin and package metadata
-        run: npm test
+        run: pnpm test
 
       - name: Install pinned Rust toolchain
         run: |
@@ -83,13 +87,17 @@ jobs:
           submodules: recursive
           persist-credentials: false
 
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
       - uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: npm
+          cache: pnpm
 
       - name: Install JavaScript dependencies
-        run: npm install --ignore-scripts
+        run: pnpm install --frozen-lockfile
 
       - name: Install NASM for Windows x64 crypto build
         if: matrix.id == 'win32-x64'
@@ -109,7 +117,7 @@ jobs:
         run: node scripts/stage-noema-binary.mjs --platform ${{ matrix.id }} --source noema/target/${{ matrix.rustTarget }}/release/${{ matrix.binaryName }}
 
       - name: Build plugin client and host
-        run: npm run build
+        run: pnpm run build
 
       - name: Exercise real bundled MCP server
         env:
@@ -136,13 +144,17 @@ jobs:
         with:
           persist-credentials: false
 
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
       - uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: npm
+          cache: pnpm
 
-      - run: npm install --ignore-scripts
-      - run: npm run build
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm run build
       - run: node scripts/verify-platform-packages.mjs
       - run: node scripts/pack-package.mjs --package . --destination artifacts
 

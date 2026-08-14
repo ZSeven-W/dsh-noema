@@ -32,16 +32,20 @@ jobs:
           submodules: recursive
           persist-credentials: false
 
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
       - uses: actions/setup-node@v4
         with:
           node-version: '24'
-          cache: npm
+          cache: pnpm
 
       - name: Install dependencies
-        run: npm install --ignore-scripts
+        run: pnpm install --frozen-lockfile
 
       - name: Build, verify package metadata, and run tests
-        run: npm test
+        run: pnpm test
 
   rust:
     name: Rust engine / ubuntu

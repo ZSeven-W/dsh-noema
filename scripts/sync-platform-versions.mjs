@@ -23,15 +23,21 @@ for (const platform of platforms) {
   await writeFile(manifestPath, JSON.stringify(manifest, null, 2) + '\n')
 }
 
-const lockPath = join(projectRoot, 'package-lock.json')
-const lock = JSON.parse(await readFile(lockPath, 'utf8'))
-lock.name = rootManifest.name
-lock.version = version
-lock.packages[''].name = rootManifest.name
-lock.packages[''].version = version
-lock.packages[''].optionalDependencies = rootManifest.optionalDependencies
-for (const platform of platforms) {
-  lock.packages['node_modules/' + platform.packageName] = { optional: true }
+// npm lockfiles are optional since the pnpm migration; refresh one only
+// when it exists (pnpm users regenerate pnpm-lock.yaml with pnpm install).
+try {
+  const lockPath = join(projectRoot, 'package-lock.json')
+  const lock = JSON.parse(await readFile(lockPath, 'utf8'))
+  lock.name = rootManifest.name
+  lock.version = version
+  lock.packages[''].name = rootManifest.name
+  lock.packages[''].version = version
+  lock.packages[''].optionalDependencies = rootManifest.optionalDependencies
+  for (const platform of platforms) {
+    lock.packages['node_modules/' + platform.packageName] = { optional: true }
+  }
+  await writeFile(lockPath, JSON.stringify(lock, null, 2) + '\n')
+} catch (error) {
+  if (error?.code !== 'ENOENT') throw error
 }
-await writeFile(lockPath, JSON.stringify(lock, null, 2) + '\n')
 process.stdout.write(`synchronized seven npm packages to ${version}\n`)

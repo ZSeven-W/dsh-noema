@@ -288,7 +288,21 @@ export class McpStdioClient {
           reject(error)
         },
       })
-      this.send({ jsonrpc: '2.0', id, method, params })
+      try {
+        this.send({ jsonrpc: '2.0', id, method, params }, error => {
+          // A write to a closed stdin (server exited mid-request) surfaces
+          // through the write callback, never as an uncaught EPIPE throw.
+          if (!this.pending.delete(id)) return
+          clearTimeout(timer)
+          signal?.removeEventListener('abort', onAbort)
+          reject(new McpStdioError('Noema MCP ' + method + ' failed: ' + error.message, { cause: error }))
+        })
+      } catch (error) {
+        if (!this.pending.delete(id)) return
+        clearTimeout(timer)
+        signal?.removeEventListener('abort', onAbort)
+        reject(error instanceof Error ? error : new McpStdioError(String(error)))
+      }
     })
   }
 
@@ -296,10 +310,12 @@ export class McpStdioClient {
     this.send({ jsonrpc: '2.0', method, ...(params === undefined ? {} : { params }) })
   }
 
-  private send(message: Record<string, unknown>): void {
+  private send(message: Record<string, unknown>, onWriteError?: (error: Error) => void): void {
     const child = this.child
     if (child === undefined) throw new McpStdioError('Noema memory server is not running')
-    child.stdin.write(JSON.stringify(message) + '\n')
+    child.stdin.write(JSON.stringify(message) + '\n', error => {
+      if (error !== null && error !== undefined) onWriteError?.(error)
+    })
   }
 
   private rejectPending(error: Error): void {

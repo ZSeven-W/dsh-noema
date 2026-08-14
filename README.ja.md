@@ -72,7 +72,7 @@ Noema の抽出エンジンは、jieba の単語分割と、英語の固有名�
 
 ### ⚡ ホットリロード
 
-最初の起動後、プラグインの再起動は二度と不要です。`npm run build` が Cordis HMR を通じてホストプラグインをホットリロードし、`npm run build:client` が client-hmr の SSE チャネル経由でブラウザバンドルをホットスワップします。
+最初の起動後、プラグインの再起動は二度と不要です。`pnpm run build` が Cordis HMR を通じてホストプラグインをホットリロードし、`ppnpm run build:client` が client-hmr の SSE チャネル経由でブラウザバンドルをホットスワップします。
 
 </td>
 </tr>
@@ -164,7 +164,7 @@ dsh web
 
 プラグインが一度ロードされると、DSH の HMR 機構をフルに利用できます。
 
-- **ホストプラグイン** — profile patch 内で Cordis HMR エントリを有効にし、その watch root をこのパッケージの `lib/` 出力に向け、`link:` 依存関係を維持します。`npm run build` を実行すると、稼働中の DSH がプラグインエントリを自動的にリロードします（Noema サーバーの子プロセスもリロードにより再起動されます）— サーバーの再起動は不要です。
+- **ホストプラグイン** — profile patch 内で Cordis HMR エントリを有効にし、その watch root をこのパッケージの `lib/` 出力に向け、`link:` 依存関係を維持します。`pnpm run build` を実行すると、稼働中の DSH がプラグインエントリを自動的にリロードします（Noema サーバーの子プロセスもリロードにより再起動されます）— サーバーの再起動は不要です。
 
   ```yaml
   # ~/.dsh/profiles/<profile>/cordis.patch.yml
@@ -175,7 +175,7 @@ dsh web
         - /path/to/dsh-noema/lib
   ```
 
-- **クライアントバンドル** — `npm run build:client` が `lib/client.js` を書き換えます。client-hmr の node 側は各 graph bundle を stat ポーリングし（デフォルト 500ms）、`/plugins/events` SSE チャネル経由で `rebuilt` フレームをブロードキャストし、ブラウザはページをリフレッシュせずにモジュールをホットスワップします。
+- **クライアントバンドル** — `ppnpm run build:client` が `lib/client.js` を書き換えます。client-hmr の node 側は各 graph bundle を stat ポーリングし（デフォルト 500ms）、`/plugins/events` SSE チャネル経由で `rebuilt` フレームをブロードキャストし、ブラウザはページをリフレッシュせずにモジュールをホットスワップします。
 - **設定** — Noema メモリ設定ページで行った変更はすべて、settings サービスを通じて即座に反映されます。
 
 ホットリロードにできない唯一のことは、起動済みツリーに一度も含まれていなかったプラグインのロードです。稼働中の composition は profile patch レイヤーを監視しておらず（web アプリは `watchUserPatches` を接続していません）、ローダー変更 API も公開していません（プラグインインベントリ RPC は読み取り専用です）。そのため、新しいプラグインにはちょうど 1 回のサーバー再起動が必要で、その後は上記のループが完全にホットになります。
@@ -183,9 +183,9 @@ dsh web
 ## 開発
 
 ```sh
-npm install
-npm run build     # host tsc + client tsdown bundle
-npm test          # build + node --test tests/
+pnpm install
+pnpm run build     # host tsc + client tsdown bundle
+pnpm test          # build + node --test tests/
 ```
 
 e2e テストは、`noema/target/debug/noema-mcp` が存在する場合にそれに対して実行されます（存在しない場合はスキップされます）。

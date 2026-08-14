@@ -72,7 +72,7 @@ Noema'nın çıkarım motoru; jieba sözcük bölümlemeyi yüksek hassasiyetli 
 
 ### ⚡ Canlı Yeniden Yükleme
 
-İlk başlatmadan sonra eklenti bir daha asla yeniden başlatma gerektirmez: `npm run build` ana eklentiyi Cordis HMR üzerinden canlı olarak yeniden yükler ve `npm run build:client` tarayıcı paketini client-hmr SSE kanalı üzerinden canlı olarak değiştirir.
+İlk başlatmadan sonra eklenti bir daha asla yeniden başlatma gerektirmez: `pnpm run build` ana eklentiyi Cordis HMR üzerinden canlı olarak yeniden yükler ve `ppnpm run build:client` tarayıcı paketini client-hmr SSE kanalı üzerinden canlı olarak değiştirir.
 
 </td>
 </tr>
@@ -164,7 +164,7 @@ Durum kartı, yeniden başlatma/durdurma eylemleriyle birlikte sunucu sağlığ�
 
 DSH'nin HMR mekanizması, eklenti bir kez yüklendikten sonra tamamen kullanılabilir:
 
-- **Ana eklenti** — profil yamasındaki Cordis HMR girdisini, izleme kökü bu paketin `lib/` çıktısına işaret edecek şekilde etkinleştirin ve `link:` bağımlılığını koruyun. `npm run build` çalıştırın; çalışan DSH eklenti girdisini otomatik olarak yeniden yükler (Noema sunucu alt süreci yeniden yükleme tarafından yeniden başlatılır) — sunucuyu yeniden başlatmaya gerek yok.
+- **Ana eklenti** — profil yamasındaki Cordis HMR girdisini, izleme kökü bu paketin `lib/` çıktısına işaret edecek şekilde etkinleştirin ve `link:` bağımlılığını koruyun. `pnpm run build` çalıştırın; çalışan DSH eklenti girdisini otomatik olarak yeniden yükler (Noema sunucu alt süreci yeniden yükleme tarafından yeniden başlatılır) — sunucuyu yeniden başlatmaya gerek yok.
 
   ```yaml
   # ~/.dsh/profiles/<profile>/cordis.patch.yml
@@ -175,7 +175,7 @@ DSH'nin HMR mekanizması, eklenti bir kez yüklendikten sonra tamamen kullanıla
         - /path/to/dsh-noema/lib
   ```
 
-- **İstemci paketi** — `npm run build:client` `lib/client.js` dosyasını yeniden yazar; client-hmr'ın node tarafı her grafik paketini stat-poll ile yoklar (varsayılan 500ms) ve `/plugins/events` SSE kanalı üzerinden bir `rebuilt` çerçevesi yayınlar; tarayıcı, sayfa yenilemeden modülü canlı olarak değiştirir.
+- **İstemci paketi** — `ppnpm run build:client` `lib/client.js` dosyasını yeniden yazar; client-hmr'ın node tarafı her grafik paketini stat-poll ile yoklar (varsayılan 500ms) ve `/plugins/events` SSE kanalı üzerinden bir `rebuilt` çerçevesi yayınlar; tarayıcı, sayfa yenilemeden modülü canlı olarak değiştirir.
 - **Ayarlar** — Noema Memory ayarlar sayfasında yapılan her değişiklik, ayarlar hizmeti aracılığıyla canlı olarak uygulanır.
 
 Canlı yeniden yüklemenin yapamayacağı tek şey, hiçbir zaman başlatılan ağaçta olmayan bir eklentiyi yüklemektir: çalışan bileşim ne profil yama katmanını izler (web uygulaması `watchUserPatches` bağlamaz) ne de bir yükleyici mutasyon API'si sunar (eklenti envanter RPC'si salt okunurdur). Bu nedenle yeni bir eklenti tam olarak bir kez sunucunun yeniden başlatılmasını gerektirir; bundan sonra yukarıdaki döngü tamamen canlıdır.
@@ -183,9 +183,9 @@ Canlı yeniden yüklemenin yapamayacağı tek şey, hiçbir zaman başlatılan a
 ## Geliştirme
 
 ```sh
-npm install
-npm run build     # host tsc + client tsdown bundle
-npm test          # build + node --test tests/
+pnpm install
+pnpm run build     # host tsc + client tsdown bundle
+pnpm test          # build + node --test tests/
 ```
 
 e2e testi, mevcut olduğunda `noema/target/debug/noema-mcp` karşısında çalışır (aksi takdirde atlanır).

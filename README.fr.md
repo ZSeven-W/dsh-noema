@@ -72,7 +72,7 @@ Le moteur d'extraction de Noema combine la segmentation de mots jieba avec des s
 
 ### ⚡ Rechargement à chaud
 
-Après le premier démarrage, le plugin n'a plus jamais besoin d'être redémarré : `npm run build` recharge à chaud le plugin hôte via Cordis HMR, et `npm run build:client` remplace à chaud le bundle navigateur via le canal SSE client-hmr.
+Après le premier démarrage, le plugin n'a plus jamais besoin d'être redémarré : `pnpm run build` recharge à chaud le plugin hôte via Cordis HMR, et `ppnpm run build:client` remplace à chaud le bundle navigateur via le canal SSE client-hmr.
 
 </td>
 </tr>
@@ -164,7 +164,7 @@ La carte d'état affiche la santé du serveur avec des actions redémarrer/arrê
 
 Le mécanisme HMR de DSH est pleinement utilisable une fois que le plugin a été chargé une première fois :
 
-- **Plugin hôte** — activez l'entrée Cordis HMR dans le patch du profil avec sa racine de surveillance pointée vers la sortie `lib/` de ce package, et conservez la dépendance `link:`. Exécutez `npm run build` et le DSH en cours recharge automatiquement l'entrée du plugin (le processus enfant du serveur Noema est redémarré par le rechargement) — sans redémarrer le serveur.
+- **Plugin hôte** — activez l'entrée Cordis HMR dans le patch du profil avec sa racine de surveillance pointée vers la sortie `lib/` de ce package, et conservez la dépendance `link:`. Exécutez `pnpm run build` et le DSH en cours recharge automatiquement l'entrée du plugin (le processus enfant du serveur Noema est redémarré par le rechargement) — sans redémarrer le serveur.
 
   ```yaml
   # ~/.dsh/profiles/<profile>/cordis.patch.yml
@@ -175,7 +175,7 @@ Le mécanisme HMR de DSH est pleinement utilisable une fois que le plugin a ét�
         - /path/to/dsh-noema/lib
   ```
 
-- **Bundle client** — `npm run build:client` réécrit `lib/client.js` ; la moitié node de client-hmr interroge périodiquement chaque bundle de graphe (500 ms par défaut) et diffuse une trame `rebuilt` sur le canal SSE `/plugins/events`, et le navigateur remplace le module à chaud sans rafraîchir la page.
+- **Bundle client** — `ppnpm run build:client` réécrit `lib/client.js` ; la moitié node de client-hmr interroge périodiquement chaque bundle de graphe (500 ms par défaut) et diffuse une trame `rebuilt` sur le canal SSE `/plugins/events`, et le navigateur remplace le module à chaud sans rafraîchir la page.
 - **Paramètres** — chaque modification effectuée sur la page des paramètres Noema Memory s'applique en direct via le service de paramètres.
 
 La seule chose que le rechargement à chaud ne peut pas faire est de charger un plugin qui n'a jamais été dans l'arborescence démarrée : la composition en cours ne surveille pas la couche de patch du profil (l'application web ne connecte pas `watchUserPatches`) et n'expose pas d'API de mutation du chargeur (le RPC d'inventaire des plugins est en lecture seule). Un nouveau plugin nécessite donc exactement un redémarrage du serveur, après quoi la boucle ci-dessus est entièrement à chaud.
@@ -183,9 +183,9 @@ La seule chose que le rechargement à chaud ne peut pas faire est de charger un 
 ## Développer
 
 ```sh
-npm install
-npm run build     # host tsc + client tsdown bundle
-npm test          # build + node --test tests/
+pnpm install
+pnpm run build     # host tsc + client tsdown bundle
+pnpm test          # build + node --test tests/
 ```
 
 Le test e2e s'exécute contre `noema/target/debug/noema-mcp` lorsqu'il est présent (il est ignoré sinon).

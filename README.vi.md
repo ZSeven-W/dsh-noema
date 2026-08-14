@@ -72,7 +72,7 @@ Công cụ trích xuất của Noema kết hợp phân tách từ jieba với c�
 
 ### ⚡ Tải Lại Nóng
 
-Sau lần khởi động đầu tiên, plugin không bao giờ cần khởi động lại: `npm run build` tải lại nóng plugin host qua Cordis HMR, và `npm run build:client` hoán đổi nóng gói trình duyệt qua kênh SSE client-hmr.
+Sau lần khởi động đầu tiên, plugin không bao giờ cần khởi động lại: `pnpm run build` tải lại nóng plugin host qua Cordis HMR, và `ppnpm run build:client` hoán đổi nóng gói trình duyệt qua kênh SSE client-hmr.
 
 </td>
 </tr>
@@ -164,7 +164,7 @@ Thẻ trạng thái hiển thị tình trạng máy chủ cùng các hành độ
 
 Cơ chế HMR của DSH có thể dùng đầy đủ sau khi plugin đã được nạp một lần:
 
-- **Host plugin** — bật mục Cordis HMR trong bản vá profile với watch root trỏ tới đầu ra `lib/` của gói này, và giữ phụ thuộc `link:`. Chạy `npm run build` và DSH đang chạy sẽ tự động tải lại mục plugin (tiến trình con máy chủ Noema được khởi động lại bởi lần tải lại) — không cần khởi động lại máy chủ.
+- **Host plugin** — bật mục Cordis HMR trong bản vá profile với watch root trỏ tới đầu ra `lib/` của gói này, và giữ phụ thuộc `link:`. Chạy `pnpm run build` và DSH đang chạy sẽ tự động tải lại mục plugin (tiến trình con máy chủ Noema được khởi động lại bởi lần tải lại) — không cần khởi động lại máy chủ.
 
   ```yaml
   # ~/.dsh/profiles/<profile>/cordis.patch.yml
@@ -175,7 +175,7 @@ Cơ chế HMR của DSH có thể dùng đầy đủ sau khi plugin đã đượ
         - /path/to/dsh-noema/lib
   ```
 
-- **Client bundle** — `npm run build:client` ghi lại `lib/client.js`; nửa node của client-hmr định kỳ stat-poll mọi graph bundle (mặc định 500ms) và phát một khung `rebuilt` qua kênh SSE `/plugins/events`, và trình duyệt hoán đổi nóng mô-đun mà không cần tải lại trang.
+- **Client bundle** — `ppnpm run build:client` ghi lại `lib/client.js`; nửa node của client-hmr định kỳ stat-poll mọi graph bundle (mặc định 500ms) và phát một khung `rebuilt` qua kênh SSE `/plugins/events`, và trình duyệt hoán đổi nóng mô-đun mà không cần tải lại trang.
 - **Settings** — mọi thay đổi trên trang cài đặt Noema Memory được áp dụng ngay lập tức thông qua dịch vụ cài đặt.
 
 Điều duy nhất mà tải lại nóng không thể làm là nạp một plugin chưa từng nằm trong cây đã khởi động: thành phần đang chạy không theo dõi lớp bản vá profile (ứng dụng web không nối `watchUserPatches`) cũng như không cung cấp API biến đổi bộ nạp (RPC kho plugin là chỉ đọc). Do đó, một plugin mới cần đúng một lần khởi động lại máy chủ, sau đó vòng lặp ở trên hoàn toàn là nóng.
@@ -183,9 +183,9 @@ Cơ chế HMR của DSH có thể dùng đầy đủ sau khi plugin đã đượ
 ## Phát triển
 
 ```sh
-npm install
-npm run build     # host tsc + client tsdown bundle
-npm test          # build + node --test tests/
+pnpm install
+pnpm run build     # host tsc + client tsdown bundle
+pnpm test          # build + node --test tests/
 ```
 
 Bài kiểm thử e2e chạy với `noema/target/debug/noema-mcp` khi có mặt (nếu không sẽ bị bỏ qua).

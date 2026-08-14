@@ -72,7 +72,7 @@ Noema 的抽取引擎將 jieba 斷詞與高精度訊號 —— 英文專有名�
 
 ### ⚡ 熱重載
 
-首次啟動後，外掛程式就再也無需重新啟動：`npm run build` 透過 Cordis HMR 熱重載主機外掛程式，`npm run build:client` 則透過 client-hmr 的 SSE 通道熱替換瀏覽器套件。
+首次啟動後，外掛程式就再也無需重新啟動：`pnpm run build` 透過 Cordis HMR 熱重載主機外掛程式，`ppnpm run build:client` 則透過 client-hmr 的 SSE 通道熱替換瀏覽器套件。
 
 </td>
 </tr>
@@ -164,7 +164,7 @@ dsh web
 
 外掛程式載入過一次之後，DSH 的 HMR 機制即可完全使用：
 
-- **主機外掛程式** —— 在 profile patch 中啟用 Cordis HMR 項目，並將其監看根目錄指向本套件的 `lib/` 輸出目錄，同時保留 `link:` 相依項目。執行 `npm run build` 後，正在執行的 DSH 會自動重載外掛程式入口（重載會重新啟動 Noema 伺服器子程序）—— 無需重新啟動伺服器。
+- **主機外掛程式** —— 在 profile patch 中啟用 Cordis HMR 項目，並將其監看根目錄指向本套件的 `lib/` 輸出目錄，同時保留 `link:` 相依項目。執行 `pnpm run build` 後，正在執行的 DSH 會自動重載外掛程式入口（重載會重新啟動 Noema 伺服器子程序）—— 無需重新啟動伺服器。
 
   ```yaml
   # ~/.dsh/profiles/<profile>/cordis.patch.yml
@@ -175,7 +175,7 @@ dsh web
         - /path/to/dsh-noema/lib
   ```
 
-- **用戶端套件** —— `npm run build:client` 會重寫 `lib/client.js`；client-hmr 的 node 端會輪詢每個 graph 套件的 stat（預設 500ms），並透過 `/plugins/events` SSE 通道廣播 `rebuilt` 幀，瀏覽器便可在不重新整理頁面的情況下熱替換模組。
+- **用戶端套件** —— `ppnpm run build:client` 會重寫 `lib/client.js`；client-hmr 的 node 端會輪詢每個 graph 套件的 stat（預設 500ms），並透過 `/plugins/events` SSE 通道廣播 `rebuilt` 幀，瀏覽器便可在不重新整理頁面的情況下熱替換模組。
 - **設定** —— 在 Noema Memory 設定頁上所做的每項更改都會透過設定服務即時生效。
 
 熱重載唯一做不到的是載入一個從未出現在啟動樹中的外掛程式：執行中的組合既不監看 profile patch 層（Web 應用未接入 `watchUserPatches`），也不暴露載入器變更 API（外掛程式清單 RPC 是唯讀的）。因此，一個全新的外掛程式恰好需要重新啟動伺服器一次，之後上述迴圈便完全可熱重載。
@@ -183,9 +183,9 @@ dsh web
 ## 開發
 
 ```sh
-npm install
-npm run build     # host tsc + client tsdown bundle
-npm test          # build + node --test tests/
+pnpm install
+pnpm run build     # host tsc + client tsdown bundle
+pnpm test          # build + node --test tests/
 ```
 
 e2e 測試會在存在 `noema/target/debug/noema-mcp` 時針對它執行（否則會被跳過）。
