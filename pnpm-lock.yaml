@@ -83,6 +83,18 @@ importers:
         specifier: 0.1.0-rc.1
         version: 0.1.0-rc.1
 
+  npm/darwin-arm64: {}
+
+  npm/darwin-x64: {}
+
+  npm/linux-arm64: {}
+
+  npm/linux-x64: {}
+
+  npm/win32-arm64: {}
+
+  npm/win32-x64: {}
+
 packages:
 
   '@deepseek-ai/cordis-plugin-include@1.0.6':
