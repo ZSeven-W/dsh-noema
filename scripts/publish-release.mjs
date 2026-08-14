@@ -33,13 +33,16 @@ async function publishOrVerify(report, tag) {
 
   const tarball = join(report.directory, report.filename)
   runNpm(['publish', tarball, '--access=public', `--tag=${tag}`, '--provenance'])
-  for (let attempt = 1; attempt <= 12; attempt += 1) {
+  // The registry publishes asynchronously; visibility can lag by minutes on
+  // a cold path. Poll long enough for the CDN to settle before giving up.
+  for (let attempt = 1; attempt <= 30; attempt += 1) {
     const visible = registryIntegrity(specifier)
     if (visible === report.integrity) {
       process.stdout.write(`${specifier} published with dist-tag ${tag}\n`)
       return
     }
-    await delay(5_000)
+    process.stdout.write(`${specifier} not visible yet (attempt ${attempt}/30)\n`)
+    await delay(10_000)
   }
   throw new Error(`${specifier} was published but did not become visible with the expected integrity`)
 }
