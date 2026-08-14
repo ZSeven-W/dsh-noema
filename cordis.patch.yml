@@ -1,0 +1,6 @@
+# dsh-noema bundle patch: mounts the Noema memory plugin into a profile layer stack.
+# The profile's own cordis.patch.yml and any --patch overlays still apply
+# after this layer; rows here can be overridden by id in later layers.
+- insert:
+    - id: dsh-noema
+      name: '@zseven-w/dsh-noema'

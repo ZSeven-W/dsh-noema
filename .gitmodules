@@ -1,0 +1,3 @@
+[submodule "noema"]
+	path = noema
+	url = https://github.com/ZSeven-W/noema.git

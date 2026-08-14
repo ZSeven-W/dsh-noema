@@ -1,0 +1,102 @@
+{
+  "name": "@zseven-w/dsh-noema",
+  "version": "0.1.0-rc.1",
+  "description": "Noema long-term memory plugin for DSH: durable, inspectable agent memory with recall tools and a settings page.",
+  "license": "MIT",
+  "keywords": [
+    "dsh",
+    "noema",
+    "memory",
+    "plugin",
+    "agent"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ZSeven-W/dsh-noema.git"
+  },
+  "type": "module",
+  "engines": {
+    "node": ">=24.11.0"
+  },
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./client": {
+      "types": "./lib/types/client/index.d.ts",
+      "default": "./lib/client.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib",
+    "src",
+    "scripts",
+    "platforms.json",
+    "cordis.patch.yml",
+    "README.md",
+    "README.*.md",
+    "docs/images/dsh-noema-logo.png",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "node scripts/run-tool.mjs tsc -p tsconfig.json && npm run build:client",
+    "build:client": "node scripts/run-tool.mjs tsc -p tsconfig.client.json && node scripts/run-tool.mjs tsdown src/client/index.tsx --format cjs --platform browser --target es2022 --tsconfig tsconfig.client.json --deps.never-bundle react --deps.never-bundle react/jsx-runtime --deps.never-bundle react-dom --deps.never-bundle react-dom/client --out-dir .client-build --clean --sourcemap --logLevel warn && node scripts/build-client.mjs",
+    "build:noema": "cargo build --manifest-path noema/Cargo.toml --locked --release -p noema-mcp",
+    "build:noema:dev": "cargo build --manifest-path noema/Cargo.toml --locked -p noema-mcp",
+    "stage:noema": "node scripts/stage-noema-binary.mjs",
+    "verify:packages": "node scripts/verify-platform-packages.mjs",
+    "release:sync": "node scripts/sync-platform-versions.mjs",
+    "release:check": "node scripts/check-release-version.mjs",
+    "pack:artifact": "node scripts/pack-package.mjs",
+    "verify:install": "node scripts/verify-selective-install.mjs",
+    "test": "npm run build && npm run verify:packages && node --test \"tests/*.test.mjs\""
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "inject": [
+        "@deepseek-ai/dsh-client-runtime",
+        "@deepseek-ai/dsh-client-locale",
+        "@deepseek-ai/dsh-client-ui-slots",
+        "@deepseek-ai/dsh-client-ui-settings"
+      ],
+      "platform": "web"
+    }
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "^4.0.1",
+    "@deepseek-ai/dsh-tools": "^0.1.0-rc.6",
+    "@deepseek-ai/dsh-settings": "^0.1.0-rc.6",
+    "@deepseek-ai/dsh-system-prompt": "^0.1.0-rc.6",
+    "@deepseek-ai/dsh-host-webserver": "^0.1.0-rc.6",
+    "@deepseek-ai/schemastery": "^3.0.0",
+    "@deepseek-ai/dsh-client-locale": "^0.1.0-rc.6",
+    "@deepseek-ai/dsh-client-runtime": "^0.1.0-rc.6",
+    "@deepseek-ai/dsh-client-ui-slots": "^0.1.0-rc.6",
+    "@deepseek-ai/dsh-client-ui-settings": "^0.1.0-rc.6",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "optionalDependencies": {
+    "@zseven-w/dsh-noema-darwin-arm64": "0.1.0-rc.1",
+    "@zseven-w/dsh-noema-darwin-x64": "0.1.0-rc.1",
+    "@zseven-w/dsh-noema-linux-arm64": "0.1.0-rc.1",
+    "@zseven-w/dsh-noema-linux-x64": "0.1.0-rc.1",
+    "@zseven-w/dsh-noema-win32-arm64": "0.1.0-rc.1",
+    "@zseven-w/dsh-noema-win32-x64": "0.1.0-rc.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "@types/react": "~18.3.1",
+    "@types/react-dom": "~18.3.1",
+    "esbuild": "^0.28.2",
+    "tsdown": "^0.22.2",
+    "typescript": "^6.0.3"
+  }
+}

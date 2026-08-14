@@ -1,0 +1,28 @@
+{
+  "name": "@zseven-w/dsh-noema-win32-arm64",
+  "version": "0.1.0-rc.1",
+  "description": "Native noema-mcp binary for dsh-noema on Windows arm64.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ZSeven-W/dsh-noema.git",
+    "directory": "npm/win32-arm64"
+  },
+  "os": [
+    "win32"
+  ],
+  "cpu": [
+    "arm64"
+  ],
+  "engines": {
+    "node": ">=24.11.0"
+  },
+  "preferUnplugged": true,
+  "files": [
+    "bin",
+    "LICENSE"
+  ],
+  "publishConfig": {
+    "access": "public"
+  }
+}

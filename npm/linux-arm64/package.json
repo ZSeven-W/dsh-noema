@@ -1,0 +1,31 @@
+{
+  "name": "@zseven-w/dsh-noema-linux-arm64",
+  "version": "0.1.0-rc.1",
+  "description": "Native noema-mcp binary for dsh-noema on Linux arm64 (glibc).",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ZSeven-W/dsh-noema.git",
+    "directory": "npm/linux-arm64"
+  },
+  "os": [
+    "linux"
+  ],
+  "cpu": [
+    "arm64"
+  ],
+  "libc": [
+    "glibc"
+  ],
+  "engines": {
+    "node": ">=24.11.0"
+  },
+  "preferUnplugged": true,
+  "files": [
+    "bin",
+    "LICENSE"
+  ],
+  "publishConfig": {
+    "access": "public"
+  }
+}

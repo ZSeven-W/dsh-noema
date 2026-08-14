@@ -1,0 +1,28 @@
+{
+  "name": "@zseven-w/dsh-noema-darwin-x64",
+  "version": "0.1.0-rc.1",
+  "description": "Native noema-mcp binary for dsh-noema on macOS x64.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ZSeven-W/dsh-noema.git",
+    "directory": "npm/darwin-x64"
+  },
+  "os": [
+    "darwin"
+  ],
+  "cpu": [
+    "x64"
+  ],
+  "engines": {
+    "node": ">=24.11.0"
+  },
+  "preferUnplugged": true,
+  "files": [
+    "bin",
+    "LICENSE"
+  ],
+  "publishConfig": {
+    "access": "public"
+  }
+}
