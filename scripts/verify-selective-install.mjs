@@ -88,7 +88,7 @@ async function createConsumer(optionalDependencies, root) {
 
 function runNpm(args, cwd) {
   const npm = process.platform === 'win32' ? 'npm.cmd' : 'npm'
-  const result = spawnSync(npm, args, { cwd, encoding: 'utf8' })
+  const result = spawnSync(npm, args, { cwd, encoding: 'utf8', shell: process.platform === 'win32' })
   if (result.status !== 0) throw new Error(`npm ${args.join(' ')} failed:\n${result.stderr || result.stdout}`)
 }
 

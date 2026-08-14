@@ -62,7 +62,7 @@ function runNpm(args) {
 
 function npmResult(args) {
   const npm = process.platform === 'win32' ? 'npm.cmd' : 'npm'
-  return spawnSync(npm, args, { encoding: 'utf8' })
+  return spawnSync(npm, args, { encoding: 'utf8', shell: process.platform === 'win32' })
 }
 
 async function readReports(directory) {

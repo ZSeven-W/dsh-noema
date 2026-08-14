@@ -13,6 +13,7 @@ function packDryRun(packagePath) {
   const result = spawnSync(npm, ['pack', '--dry-run', '--json', '--ignore-scripts', packagePath], {
     cwd: projectRoot,
     encoding: 'utf8',
+    shell: process.platform === 'win32',
   })
   if (result.status !== 0) throw new Error(`npm pack failed for ${packagePath}: ${result.stderr || result.stdout}`)
   const reports = JSON.parse(result.stdout)

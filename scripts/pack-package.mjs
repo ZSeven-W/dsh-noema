@@ -18,6 +18,7 @@ const result = spawnSync(npm, [
 ], {
   cwd: projectRoot,
   encoding: 'utf8',
+  shell: process.platform === 'win32',
 })
 if (result.status !== 0) throw new Error(result.stderr || result.stdout || `npm pack exited ${result.status}`)
 const reports = JSON.parse(result.stdout)
