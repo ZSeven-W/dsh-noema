@@ -1,0 +1,206 @@
+name: Release npm packages
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Existing synchronized package version (for example 0.1.0-rc.1)
+        required: true
+        type: string
+      publish:
+        description: Publish after all build and install checks pass
+        required: true
+        default: false
+        type: boolean
+
+concurrency:
+  group: dsh-noema-release-${{ github.ref }}
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+env:
+  NODE_VERSION: '24.11.0'
+  RUST_VERSION: '1.95.0'
+
+jobs:
+  validate:
+    runs-on: ubuntu-22.04
+    outputs:
+      version: ${{ steps.release.outputs.version }}
+      matrix: ${{ steps.release.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          persist-credentials: false
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+
+      - name: Select and validate release version
+        id: release
+        shell: bash
+        env:
+          REQUESTED_VERSION: ${{ github.event_name == 'push' && github.ref_name || inputs.version }}
+        run: |
+          VERSION="${REQUESTED_VERSION#v}"
+          node scripts/check-release-version.mjs "$VERSION"
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          node -e "const p=require('./platforms.json'); process.stdout.write('matrix='+JSON.stringify({include:p})+'\n')" >> "$GITHUB_OUTPUT"
+
+      - name: Install JavaScript dependencies
+        run: npm ci --ignore-scripts
+
+      - name: Validate plugin and package metadata
+        run: npm test
+
+      - name: Install pinned Rust toolchain
+        run: |
+          rustup toolchain install ${{ env.RUST_VERSION }} --profile minimal --component rustfmt
+          rustup default ${{ env.RUST_VERSION }}
+
+      - name: Validate Noema source
+        run: |
+          cargo fmt --manifest-path noema/Cargo.toml --all -- --check
+          cargo test --manifest-path noema/Cargo.toml --locked -p noema-mcp
+
+  build-native:
+    needs: validate
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJSON(needs.validate.outputs.matrix) }}
+    runs-on: ${{ matrix.runner }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          persist-credentials: false
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+
+      - name: Install JavaScript dependencies
+        run: npm ci --ignore-scripts
+
+      - name: Install NASM for Windows x64 crypto build
+        if: matrix.id == 'win32-x64'
+        uses: ilammy/setup-nasm@72793074d3c8cdda771dba85f6deafe00623038b # v1
+
+      - name: Install pinned Rust target
+        run: |
+          rustup toolchain install ${{ env.RUST_VERSION }} --profile minimal --target ${{ matrix.rustTarget }}
+          rustup default ${{ env.RUST_VERSION }}
+
+      - name: Build noema-mcp
+        env:
+          CARGO_PROFILE_RELEASE_STRIP: symbols
+        run: cargo build --manifest-path noema/Cargo.toml --locked --release -p noema-mcp --target ${{ matrix.rustTarget }}
+
+      - name: Stage platform package
+        run: node scripts/stage-noema-binary.mjs --platform ${{ matrix.id }} --source noema/target/${{ matrix.rustTarget }}/release/${{ matrix.binaryName }}
+
+      - name: Build plugin client and host
+        run: npm run build
+
+      - name: Exercise real bundled MCP server
+        env:
+          REQUIRE_NOEMA_E2E: '1'
+        run: node --test tests/e2e-noema.test.mjs
+
+      - name: Verify and pack native package
+        run: |
+          node scripts/verify-platform-packages.mjs --platform ${{ matrix.id }} --require-binaries
+          node scripts/pack-package.mjs --package ./npm/${{ matrix.id }} --destination artifacts
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.id }}
+          path: artifacts/
+          if-no-files-found: error
+          retention-days: 7
+
+  pack-root:
+    needs: validate
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+
+      - run: npm ci --ignore-scripts
+      - run: npm run build
+      - run: node scripts/verify-platform-packages.mjs
+      - run: node scripts/pack-package.mjs --package . --destination artifacts
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: root
+          path: artifacts/
+          if-no-files-found: error
+          retention-days: 7
+
+  verify-pack-set:
+    needs: [validate, build-native, pack-root]
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Use npm 11 platform override support
+        run: npm install --global npm@11
+
+      - uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+
+      - name: Simulate all six selective installs
+        run: node scripts/verify-selective-install.mjs artifacts
+
+  publish:
+    needs: [validate, verify-pack-set]
+    if: github.event_name == 'push' || inputs.publish == true
+    runs-on: ubuntu-22.04
+    environment: npm
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          registry-url: https://registry.npmjs.org
+
+      - name: Use npm 11 trusted publishing support
+        run: npm install --global npm@11
+
+      - uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+
+      - name: Publish native packages first, root package last
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: node scripts/publish-release.mjs artifacts

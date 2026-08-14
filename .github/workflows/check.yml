@@ -1,0 +1,63 @@
+name: Plugin check
+
+# Runs the full TypeScript build and test suite for the DSH Noema plugin on
+# every PR and push to main, plus the Rust engine tests for the bundled Noema
+# submodule. No path filters: the repo is small and every change (sources,
+# scripts, or the Noema engine) feeds the build.
+#
+# The DSH host/client packages are peer dependencies resolved from the public
+# npm registry by `npm ci`. The e2e test needs a built noema-mcp binary; on
+# CI it is skipped unless REQUIRE_NOEMA_E2E is set (the release workflow runs
+# it after building the real binary).
+
+on:
+  pull_request:
+  push:
+    branches: ['main']
+
+concurrency:
+  group: check-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  js:
+    name: Node 24 / ubuntu
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          persist-credentials: false
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci --ignore-scripts
+
+      - name: Build, verify package metadata, and run tests
+        run: npm test
+
+  rust:
+    name: Rust engine / ubuntu
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          persist-credentials: false
+
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt
+
+      - name: Check formatting
+        run: cargo fmt --manifest-path noema/Cargo.toml --all -- --check
+
+      - name: Test engine (noema-core + noema-mcp)
+        run: cargo test --manifest-path noema/Cargo.toml --locked -p noema-core -p noema-mcp
