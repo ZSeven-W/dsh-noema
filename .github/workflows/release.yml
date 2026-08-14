@@ -56,7 +56,7 @@ jobs:
           node -e "const p=require('./platforms.json'); process.stdout.write('matrix='+JSON.stringify({include:p})+'\n')" >> "$GITHUB_OUTPUT"
 
       - name: Install JavaScript dependencies
-        run: npm ci --ignore-scripts
+        run: npm install --ignore-scripts
 
       - name: Validate plugin and package metadata
         run: npm test
@@ -89,7 +89,7 @@ jobs:
           cache: npm
 
       - name: Install JavaScript dependencies
-        run: npm ci --ignore-scripts
+        run: npm install --ignore-scripts
 
       - name: Install NASM for Windows x64 crypto build
         if: matrix.id == 'win32-x64'
@@ -141,7 +141,7 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
           cache: npm
 
-      - run: npm ci --ignore-scripts
+      - run: npm install --ignore-scripts
       - run: npm run build
       - run: node scripts/verify-platform-packages.mjs
       - run: node scripts/pack-package.mjs --package . --destination artifacts
