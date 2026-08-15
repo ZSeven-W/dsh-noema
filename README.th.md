@@ -23,6 +23,13 @@
   <a href="https://github.com/ZSeven-W/dsh-noema/blob/main/LICENSE"><img src="https://img.shields.io/github/license/ZSeven-W/dsh-noema?color=64748b" alt="License" /></a>
 </p>
 
+<br />
+
+<p align="center">
+  <img src="./docs/images/dsh-noema-overview.png" alt="DSH Noema — หน้าตั้งค่าหน่วยความจำ" width="100%" />
+</p>
+<p align="center"><sub>หน้าตั้งค่า Noema Memory — แหล่งนำเข้า การจัดการหน่วยความจำ และสถานะเซิร์ฟเวอร์แบบสด</sub></p>
+
 ## ทำไมต้อง DSH Noema
 
 DSH Noema เชื่อมต่อ [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness) เข้ากับ [Noema](https://github.com/ZSeven-W/noema) — ระบบหน่วยความจำแบบ local-first ที่ไม่ใช้เวกเตอร์สำหรับเอเจนต์เขียนโค้ด — เพื่อให้เอเจนต์เก็บความรู้ที่คงทนข้ามเซสชัน แทนที่จะเริ่มบทสนทนาทุกครั้งจากศูนย์

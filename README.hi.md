@@ -23,6 +23,13 @@
   <a href="https://github.com/ZSeven-W/dsh-noema/blob/main/LICENSE"><img src="https://img.shields.io/github/license/ZSeven-W/dsh-noema?color=64748b" alt="License" /></a>
 </p>
 
+<br />
+
+<p align="center">
+  <img src="./docs/images/dsh-noema-overview.png" alt="DSH Noema — मेमोरी सेटिंग्स पेज" width="100%" />
+</p>
+<p align="center"><sub>Noema मेमोरी सेटिंग्स पेज — इम्पोर्ट स्रोत, मेमोरी प्रबंधन और लाइव सर्वर स्थिति</sub></p>
+
 ## DSH Noema क्यों
 
 DSH Noema, [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness) को [Noema](https://github.com/ZSeven-W/noema) से जोड़ता है — जो कोडिंग एजेंट के लिए एक स्थानीय-प्रथम, गैर-वेक्टर स्मृति प्रणाली है — ताकि एक एजेंट हर वार्तालाप को शून्य से शुरू करने के बजाय सत्रों के बीच टिकाऊ ज्ञान बनाए रखे।

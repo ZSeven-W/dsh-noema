@@ -23,6 +23,13 @@
   <a href="https://github.com/ZSeven-W/dsh-noema/blob/main/LICENSE"><img src="https://img.shields.io/github/license/ZSeven-W/dsh-noema?color=64748b" alt="License" /></a>
 </p>
 
+<br />
+
+<p align="center">
+  <img src="./docs/images/dsh-noema-overview.png" alt="DSH Noema — bellek ayarları sayfası" width="100%" />
+</p>
+<p align="center"><sub>Noema Memory ayarlar sayfası — içe aktarma kaynakları, bellek yönetimi ve canlı sunucu durumu</sub></p>
+
 ## Neden DSH Noema
 
 DSH Noema, [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness) ile [Noema](https://github.com/ZSeven-W/noema) — kodlama ajanları için yerel öncelikli, vektör tabanlı olmayan bir bellek sistemi — arasında köprü kurar; böylece bir Ajan her konuşmaya sıfırdan başlamak yerine oturumlar arasında kalıcı bilgiyi korur.

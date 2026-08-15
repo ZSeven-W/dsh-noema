@@ -23,6 +23,13 @@
   <a href="https://github.com/ZSeven-W/dsh-noema/blob/main/LICENSE"><img src="https://img.shields.io/github/license/ZSeven-W/dsh-noema?color=64748b" alt="License" /></a>
 </p>
 
+<br />
+
+<p align="center">
+  <img src="./docs/images/dsh-noema-overview.png" alt="DSH Noema —— 记忆设置页" width="100%" />
+</p>
+<p align="center"><sub>Noema 记忆设置页 —— 导入来源、记忆管理与实时服务器状态</sub></p>
+
 ## 为什么选择 DSH Noema
 
 DSH Noema 将 [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness) 与 [Noema](https://github.com/ZSeven-W/noema) —— 一个面向编码智能体的本地优先、非向量记忆系统 —— 连接起来，让智能体能够跨会话保留持久知识，而不是每次对话都从零开始。

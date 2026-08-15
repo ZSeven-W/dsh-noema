@@ -40,6 +40,7 @@
     "README.md",
     "README.*.md",
     "docs/images/dsh-noema-logo.png",
+    "docs/images/dsh-noema-overview.png",
     "LICENSE"
   ],
   "scripts": {

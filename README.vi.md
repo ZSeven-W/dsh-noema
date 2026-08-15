@@ -23,6 +23,13 @@
   <a href="https://github.com/ZSeven-W/dsh-noema/blob/main/LICENSE"><img src="https://img.shields.io/github/license/ZSeven-W/dsh-noema?color=64748b" alt="License" /></a>
 </p>
 
+<br />
+
+<p align="center">
+  <img src="./docs/images/dsh-noema-overview.png" alt="DSH Noema — trang cài đặt bộ nhớ" width="100%" />
+</p>
+<p align="center"><sub>Trang cài đặt Noema Memory — nguồn nhập, quản lý bộ nhớ và trạng thái máy chủ trực tiếp</sub></p>
+
 ## Tại sao DSH Noema
 
 DSH Noema kết nối [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness) với [Noema](https://github.com/ZSeven-W/noema) — một hệ thống bộ nhớ ưu tiên cục bộ, phi vector dành cho các coding agent — để một Agent giữ lại tri thức bền vững xuyên suốt các phiên làm việc thay vì bắt đầu mỗi cuộc trò chuyện từ con số không.
