@@ -198,6 +198,12 @@ pnpm test          # build + node --test tests/
 
 e2e परीक्षण `noema/target/debug/noema-mcp` के मौजूद होने पर उसके विरुद्ध चलता है (अन्यथा इसे छोड़ दिया जाता है)।
 
+## पारिस्थितिकी तंत्र
+
+- [DSH Crew](https://github.com/ZSeven-W/dsh-crew) — Claude Code / Codex से DSH एजेंट को काम सौंपें
+- [DSH iOS](https://github.com/ZSeven-W/dsh-ios) — बातचीत के भीतर चलता iOS सिम्युलेटर — और USB से जुड़ा iPhone
+- [DSH OpenPencil](https://github.com/ZSeven-W/dsh-openpencil) — बातचीत के भीतर `.op` डिज़ाइन दस्तावेज़ देखें और संपादित करें
+
 ## लाइसेंस
 
 MIT

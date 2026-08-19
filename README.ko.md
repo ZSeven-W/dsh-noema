@@ -198,6 +198,12 @@ pnpm test          # build + node --test tests/
 
 e2e 테스트는 `noema/target/debug/noema-mcp`가 있으면 그것을 대상으로 실행됩니다(없으면 건너뜁니다).
 
+## 에코시스템
+
+- [DSH Crew](https://github.com/ZSeven-W/dsh-crew) — Claude Code / Codex에서 DSH 에이전트로 작업 위임
+- [DSH iOS](https://github.com/ZSeven-W/dsh-ios) — 대화 안에서 동작하는 iOS 시뮬레이터와 USB 연결 iPhone
+- [DSH OpenPencil](https://github.com/ZSeven-W/dsh-openpencil) — 대화 안에서 `.op` 디자인 문서 확인 및 편집
+
 ## 라이선스
 
 MIT

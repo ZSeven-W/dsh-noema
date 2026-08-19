@@ -198,6 +198,12 @@ pnpm test          # build + node --test tests/
 
 e2e testi, mevcut olduğunda `noema/target/debug/noema-mcp` karşısında çalışır (aksi takdirde atlanır).
 
+## Ekosistem
+
+- [DSH Crew](https://github.com/ZSeven-W/dsh-crew) — Claude Code / Codex üzerinden DSH ajanlarına iş dağıtın
+- [DSH iOS](https://github.com/ZSeven-W/dsh-ios) — sohbetin içinde canlı bir iOS simülatörü — ve USB'ye bağlı bir iPhone
+- [DSH OpenPencil](https://github.com/ZSeven-W/dsh-openpencil) — `.op` tasarım belgelerini sohbet içinde inceleyin ve düzenleyin
+
 ## Lisans
 
 MIT

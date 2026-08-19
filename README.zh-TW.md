@@ -198,6 +198,12 @@ pnpm test          # build + node --test tests/
 
 e2e 測試會在存在 `noema/target/debug/noema-mcp` 時針對它執行（否則會被跳過）。
 
+## 生態系
+
+- [DSH Crew](https://github.com/ZSeven-W/dsh-crew) — 從 Claude Code / Codex 把任務派給 DSH agent
+- [DSH iOS](https://github.com/ZSeven-W/dsh-ios) — 在對話中執行 iOS 模擬器與 USB 連接的實機
+- [DSH OpenPencil](https://github.com/ZSeven-W/dsh-openpencil) — 在對話中檢視與編輯 `.op` 設計文件
+
 ## 授權條款
 
 MIT

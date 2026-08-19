@@ -198,6 +198,12 @@ pnpm test          # build + node --test tests/
 
 e2e-тест запускается против `noema/target/debug/noema-mcp`, когда он присутствует (иначе пропускается).
 
+## Экосистема
+
+- [DSH Crew](https://github.com/ZSeven-W/dsh-crew) — делегировать задачи агентам DSH из Claude Code / Codex
+- [DSH iOS](https://github.com/ZSeven-W/dsh-ios) — живой симулятор iOS — и iPhone по USB — прямо в диалоге
+- [DSH OpenPencil](https://github.com/ZSeven-W/dsh-openpencil) — просматривать и редактировать документы `.op` прямо в диалоге
+
 ## Лицензия
 
 MIT

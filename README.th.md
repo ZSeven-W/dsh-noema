@@ -198,6 +198,12 @@ pnpm test          # build + node --test tests/
 
 การทดสอบ e2e รันกับ `noema/target/debug/noema-mcp` เมื่อมีไฟล์อยู่ (มิฉะนั้นจะถูกข้าม)
 
+## ระบบนิเวศ
+
+- [DSH Crew](https://github.com/ZSeven-W/dsh-crew) — มอบหมายงานให้เอเจนต์ DSH จาก Claude Code / Codex
+- [DSH iOS](https://github.com/ZSeven-W/dsh-ios) — iOS Simulator ที่ทำงานจริง — และ iPhone ที่ต่อผ่าน USB — ภายในบทสนทนา
+- [DSH OpenPencil](https://github.com/ZSeven-W/dsh-openpencil) — ตรวจดูและแก้ไขเอกสารออกแบบ `.op` ในบทสนทนา
+
 ## ใบอนุญาต
 
 MIT
