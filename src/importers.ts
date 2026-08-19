@@ -1,8 +1,9 @@
 /**
  * Foreign-agent memory importers: Codex, Claude Code, opencode, Cursor,
- * Grok, and WorkBuddy. Each importer declares the global and per-workspace
- * memory files its tool reads, plus how to display them. The import service
- * owns reading, chunking, dedup, and submission.
+ * Grok, WorkBuddy, Antigravity, Trae, Qoder, and Hermes. Each importer
+ * declares the global and per-workspace memory files its tool reads, plus
+ * how to display them. The import service owns reading, chunking, dedup,
+ * and submission.
  * @module @zseven-w/dsh-noema/importers
  */
 import { homedir } from 'node:os'
@@ -218,6 +219,32 @@ const QODER: Importer = {
   ],
 }
 
+/**
+ * Hermes Agent (Nous Research): the built-in curated memory lives in
+ * ~/.hermes/memories/ (MEMORY.md agent notes + USER.md user profile) and the
+ * global ~/.hermes/SOUL.md personality file. Project instructions are
+ * .hermes.md / HERMES.md (highest priority), AGENTS.md, and CLAUDE.md.
+ * Named profiles keep separate homes under ~/.hermes/profiles/<name>/; only
+ * the default home is collected to avoid pulling in seeded skills.
+ */
+const HERMES: Importer = {
+  id: 'hermes',
+  label: 'Hermes',
+  globalCandidates: () => {
+    const home = homedir()
+    return [
+      { path: join(home, '.hermes', 'memories'), label: '~/.hermes/memories', kind: 'markdown-dir' as const },
+      { path: join(home, '.hermes', 'SOUL.md'), label: '~/.hermes/SOUL.md', kind: 'markdown' as const },
+    ]
+  },
+  workspaceCandidates: (root: string) => [
+    { path: join(root, '.hermes.md'), label: '.hermes.md', kind: 'markdown' as const },
+    { path: join(root, 'HERMES.md'), label: 'HERMES.md', kind: 'markdown' as const },
+    { path: join(root, 'AGENTS.md'), label: 'AGENTS.md', kind: 'markdown' as const },
+    { path: join(root, 'CLAUDE.md'), label: 'CLAUDE.md', kind: 'markdown' as const },
+  ],
+}
+
 /** Cursor rules: global and per-project .mdc rule files plus legacy .cursorrules. */
 const CURSOR: Importer = {
   id: 'cursor',
@@ -236,7 +263,7 @@ const CURSOR: Importer = {
 }
 
 /** All importers in stable display order. */
-export const IMPORTERS: readonly Importer[] = [CODEX, CLAUDE_CODE, OPENCODE, CURSOR, GROK, WORKBUDDY, ANTIGRAVITY, TRAE, QODER]
+export const IMPORTERS: readonly Importer[] = [CODEX, CLAUDE_CODE, OPENCODE, CURSOR, GROK, WORKBUDDY, ANTIGRAVITY, TRAE, QODER, HERMES]
 
 /** Importer id union. */
 export type ImporterId = (typeof IMPORTERS)[number]['id']

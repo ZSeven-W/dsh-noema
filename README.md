@@ -47,7 +47,7 @@ Memories persist as inspectable Markdown files under `NOEMA_ROOT` (default `~/.a
 
 ### 📥 Import From Other Tools
 
-`noema_import` reads the memory files of nine other AI coding tools — Codex, Claude Code, opencode, Cursor, Grok, WorkBuddy, Antigravity, Trae, Qoder — splits them into sections, and saves each as a durable memory. A content-keyed ledger deduplicates across runs and across tools that share files.
+`noema_import` reads the memory files of ten other AI coding tools — Codex, Claude Code, opencode, Cursor, Grok, WorkBuddy, Antigravity, Trae, Qoder, Hermes — splits them into sections, and saves each as a durable memory. A content-keyed ledger deduplicates across runs and across tools that share files.
 
 </td>
 </tr>
@@ -139,6 +139,7 @@ Each tool returns a uniform envelope `{ ok, tool, text }` where `text` carries t
 | `antigravity` | `~/.antigravity/AGENTS.md`, `~/.config/antigravity/AGENTS.md`, `~/Library/Application Support/Antigravity/AGENTS.md` (best-effort; no documented global memory store yet) | `AGENTS.md`, `AGENTS.local.md` |
 | `trae` | `~/.trae/AGENTS.md`, `~/.trae/memory/`, `~/.trae/rules/` (plus the `~/.trae-cn` variants) | `AGENTS.md`, `.trae/rules/` |
 | `qoder` | `~/.qoder-cn/AGENTS.md`, `~/.qoder-cn/rules/`, the auto-memory roots `~/.qoder-cn/memory/` and `~/.qoder-cn/projects/*/memory/` (plus `~/.qoder` variants) | `AGENTS.md`, `AGENTS.local.md`, `.qoder/rules/` |
+| `hermes` | `~/.hermes/memories/` (`MEMORY.md` + `USER.md`) and the global `~/.hermes/SOUL.md` | `.hermes.md`, `HERMES.md`, `AGENTS.md`, `CLAUDE.md` |
 
 - The `source` argument selects one tool, or omit it to run every source enabled in settings.
 - The `path` argument selects the workspace root for project-scoped files (defaults to the session workspace; workspace files only load when the Import workspace files setting is on).

@@ -162,12 +162,12 @@ const NOEMA_TOOL_SPECS: readonly NoemaToolSpec[] = [
   {
     name: 'noema_import',
     description:
-      'Import memories from other AI coding tools (Codex, Claude Code, opencode, Cursor, Grok, WorkBuddy, Antigravity, Trae, Qoder) into Noema. ' +
+      'Import memories from other AI coding tools (Codex, Claude Code, opencode, Cursor, Grok, WorkBuddy, Antigravity, Trae, Qoder, Hermes) into Noema. ' +
       'Reads their AGENTS.md / CLAUDE.md / .mdc rules memory files, splits them into items, and saves each as a durable memory. ' +
       'Use when the user wants to bring in what other agents remember. Re-runs skip already-imported items.' +
       MEMORY_USAGE_HINT,
     parameters: {
-      source: { type: 'string', description: 'Tool id to import: codex, claude-code, opencode, cursor, grok, workbuddy, antigravity, trae, qoder, or all. Omit to run every enabled source.' },
+      source: { type: 'string', description: 'Tool id to import: codex, claude-code, opencode, cursor, grok, workbuddy, antigravity, trae, qoder, hermes, or all. Omit to run every enabled source.' },
       path: { type: 'string', description: 'Workspace root for project-scoped files (defaults to the session workspace).' },
       force: { type: 'boolean', description: 'Re-import items the import ledger already recorded. Default false.' },
     },

@@ -47,7 +47,7 @@ DSH Noema는 [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness)
 
 ### 📥 다른 도구에서 가져오기
 
-`noema_import`는 Codex, Claude Code, opencode, Cursor, Grok, WorkBuddy, Antigravity, Trae, Qoder 등 9개의 다른 AI 코딩 도구의 메모리 파일을 읽어 섹션으로 나눈 뒤 각각을 영속적인 메모리로 저장합니다. 콘텐츠 키 기반 원장이 실행 간, 그리고 파일을 공유하는 도구 간 중복을 제거합니다.
+`noema_import`는 Codex, Claude Code, opencode, Cursor, Grok, WorkBuddy, Antigravity, Trae, Qoder, Hermes 등 10개의 다른 AI 코딩 도구의 메모리 파일을 읽어 섹션으로 나눈 뒤 각각을 영속적인 메모리로 저장합니다. 콘텐츠 키 기반 원장이 실행 간, 그리고 파일을 공유하는 도구 간 중복을 제거합니다.
 
 </td>
 </tr>
@@ -139,6 +139,7 @@ dsh web
 | `antigravity` | `~/.antigravity/AGENTS.md`, `~/.config/antigravity/AGENTS.md`, `~/Library/Application Support/Antigravity/AGENTS.md` (최선 노력. 아직 문서화된 전역 메모리 저장소가 없음) | `AGENTS.md`, `AGENTS.local.md` |
 | `trae` | `~/.trae/AGENTS.md`, `~/.trae/memory/`, `~/.trae/rules/` (`~/.trae-cn` 변형 포함) | `AGENTS.md`, `.trae/rules/` |
 | `qoder` | `~/.qoder-cn/AGENTS.md`, `~/.qoder-cn/rules/`, 자동 메모리 루트 `~/.qoder-cn/memory/` 및 `~/.qoder-cn/projects/*/memory/` (`~/.qoder` 변형 포함) | `AGENTS.md`, `AGENTS.local.md`, `.qoder/rules/` |
+| `hermes` | `~/.hermes/memories/` (`MEMORY.md` + `USER.md`) 및 전역 `~/.hermes/SOUL.md` | `.hermes.md`, `HERMES.md`, `AGENTS.md`, `CLAUDE.md` |
 
 - `source` 인자는 하나의 도구를 선택하며, 생략하면 설정에서 활성화된 모든 소스를 실행합니다.
 - `path` 인자는 프로젝트 범위 파일에 대한 작업공간 루트를 선택합니다(기본값은 세션 작업공간이며, 작업공간 파일은 Import workspace files 설정이 켜져 있을 때만 로드됩니다).

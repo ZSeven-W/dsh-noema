@@ -47,7 +47,7 @@ Memori tersimpan sebagai berkas Markdown yang dapat diperiksa di bawah `NOEMA_RO
 
 ### 📥 Impor Dari Alat Lain
 
-`noema_import` membaca berkas memori sembilan alat coding AI lainnya — Codex, Claude Code, opencode, Cursor, Grok, WorkBuddy, Antigravity, Trae, Qoder — membaginya menjadi beberapa bagian, dan menyimpan setiap bagian sebagai memori yang tahan lama. Sebuah buku besar berkunci konten menghapus duplikasi lintas proses dan lintas alat yang berbagi berkas.
+`noema_import` membaca berkas memori sepuluh alat coding AI lainnya — Codex, Claude Code, opencode, Cursor, Grok, WorkBuddy, Antigravity, Trae, Qoder, Hermes — membaginya menjadi beberapa bagian, dan menyimpan setiap bagian sebagai memori yang tahan lama. Sebuah buku besar berkunci konten menghapus duplikasi lintas proses dan lintas alat yang berbagi berkas.
 
 </td>
 </tr>
@@ -139,6 +139,7 @@ Setiap alat mengembalikan amplop seragam `{ ok, tool, text }` di mana `text` mem
 | `antigravity` | `~/.antigravity/AGENTS.md`, `~/.config/antigravity/AGENTS.md`, `~/Library/Application Support/Antigravity/AGENTS.md` (upaya terbaik; belum ada penyimpanan memori global yang terdokumentasi) | `AGENTS.md`, `AGENTS.local.md` |
 | `trae` | `~/.trae/AGENTS.md`, `~/.trae/memory/`, `~/.trae/rules/` (plus varian `~/.trae-cn`) | `AGENTS.md`, `.trae/rules/` |
 | `qoder` | `~/.qoder-cn/AGENTS.md`, `~/.qoder-cn/rules/`, akar memori otomatis `~/.qoder-cn/memory/` dan `~/.qoder-cn/projects/*/memory/` (plus varian `~/.qoder`) | `AGENTS.md`, `AGENTS.local.md`, `.qoder/rules/` |
+| `hermes` | `~/.hermes/memories/` (`MEMORY.md` + `USER.md`) dan `~/.hermes/SOUL.md` global | `.hermes.md`, `HERMES.md`, `AGENTS.md`, `CLAUDE.md` |
 
 - Argumen `source` memilih satu alat, atau abaikan untuk menjalankan setiap sumber yang diaktifkan di pengaturan.
 - Argumen `path` memilih akar workspace untuk berkas berlingkup proyek (bawaan adalah workspace sesi; berkas workspace hanya dimuat ketika pengaturan Import workspace files aktif).

@@ -47,7 +47,7 @@ DSH Noema 將 [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness
 
 ### 📥 從其他工具匯入
 
-`noema_import` 讀取其他九種 AI 編碼工具的記憶檔案 —— Codex、Claude Code、opencode、Cursor、Grok、WorkBuddy、Antigravity、Trae、Qoder —— 將其拆分為小節，並把每一節儲存為一條持久記憶。以內容為鍵的帳本會在多次執行之間以及共用檔案的各種工具之間去除重複。
+`noema_import` 讀取其他十種 AI 編碼工具的記憶檔案 —— Codex、Claude Code、opencode、Cursor、Grok、WorkBuddy、Antigravity、Trae、Qoder、Hermes —— 將其拆分為小節，並把每一節儲存為一條持久記憶。以內容為鍵的帳本會在多次執行之間以及共用檔案的各種工具之間去除重複。
 
 </td>
 </tr>
@@ -139,6 +139,7 @@ dsh web
 | `antigravity` | `~/.antigravity/AGENTS.md`、`~/.config/antigravity/AGENTS.md`、`~/Library/Application Support/Antigravity/AGENTS.md`（盡力而為；目前尚無文件化的全域記憶儲存） | `AGENTS.md`、`AGENTS.local.md` |
 | `trae` | `~/.trae/AGENTS.md`、`~/.trae/memory/`、`~/.trae/rules/`（以及 `~/.trae-cn` 變體） | `AGENTS.md`、`.trae/rules/` |
 | `qoder` | `~/.qoder-cn/AGENTS.md`、`~/.qoder-cn/rules/`、自動記憶根目錄 `~/.qoder-cn/memory/` 和 `~/.qoder-cn/projects/*/memory/`（以及 `~/.qoder` 變體） | `AGENTS.md`、`AGENTS.local.md`、`.qoder/rules/` |
+| `hermes` | `~/.hermes/memories/`（`MEMORY.md` + `USER.md`）以及全域 `~/.hermes/SOUL.md` | `.hermes.md`、`HERMES.md`、`AGENTS.md`、`CLAUDE.md` |
 
 - `source` 參數用於選擇某個工具，省略它則會執行設定中啟用的所有來源。
 - `path` 參數用於選擇專案級檔案的工作區根目錄（預設使用工作階段工作區；只有在開啟 Import workspace files 設定時，工作區檔案才會被載入）。

@@ -47,7 +47,7 @@ DSH Noema связывает [DeepSeek Harness](https://github.com/deepseek-ai/d
 
 ### 📥 Импорт из других инструментов
 
-`noema_import` читает файлы памяти девяти других ИИ-инструментов программирования — Codex, Claude Code, opencode, Cursor, Grok, WorkBuddy, Antigravity, Trae, Qoder — разделяет их на секции и сохраняет каждую как долговечное воспоминание. Реестр с ключом по содержимому устраняет дубликаты между запусками и между инструментами, использующими общие файлы.
+`noema_import` читает файлы памяти десяти других ИИ-инструментов программирования — Codex, Claude Code, opencode, Cursor, Grok, WorkBuddy, Antigravity, Trae, Qoder, Hermes — разделяет их на секции и сохраняет каждую как долговечное воспоминание. Реестр с ключом по содержимому устраняет дубликаты между запусками и между инструментами, использующими общие файлы.
 
 </td>
 </tr>
@@ -139,6 +139,7 @@ dsh web
 | `antigravity` | `~/.antigravity/AGENTS.md`, `~/.config/antigravity/AGENTS.md`, `~/Library/Application Support/Antigravity/AGENTS.md` (по мере возможности; документированного глобального хранилища памяти пока нет) | `AGENTS.md`, `AGENTS.local.md` |
 | `trae` | `~/.trae/AGENTS.md`, `~/.trae/memory/`, `~/.trae/rules/` (плюс варианты `~/.trae-cn`) | `AGENTS.md`, `.trae/rules/` |
 | `qoder` | `~/.qoder-cn/AGENTS.md`, `~/.qoder-cn/rules/`, корни автопамяти `~/.qoder-cn/memory/` и `~/.qoder-cn/projects/*/memory/` (плюс варианты `~/.qoder`) | `AGENTS.md`, `AGENTS.local.md`, `.qoder/rules/` |
+| `hermes` | `~/.hermes/memories/` (`MEMORY.md` + `USER.md`) и глобальный `~/.hermes/SOUL.md` | `.hermes.md`, `HERMES.md`, `AGENTS.md`, `CLAUDE.md` |
 
 - Аргумент `source` выбирает один инструмент; опустите его, чтобы запустить все источники, включённые в настройках.
 - Аргумент `path` выбирает корень рабочей области для файлов на уровне проекта (по умолчанию — рабочая область сессии; файлы рабочей области загружаются только когда включена настройка Import workspace files).

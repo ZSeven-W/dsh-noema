@@ -68,6 +68,7 @@ const IMPORT_SOURCE_LABELS: ReadonlyArray<readonly [string, string]> = [
   ['antigravity', 'Antigravity'],
   ['trae', 'Trae'],
   ['qoder', 'Qoder'],
+  ['hermes', 'Hermes'],
 ]
 
 interface StatusPayload {

@@ -47,7 +47,7 @@ Anılar, `NOEMA_ROOT` altında (varsayılan `~/.agent-memory/`) denetlenebilir M
 
 ### 📥 Diğer Araçlardan İçe Aktarma
 
-`noema_import` dokuz farklı yapay zeka kodlama aracının bellek dosyalarını okur — Codex, Claude Code, opencode, Cursor, Grok, WorkBuddy, Antigravity, Trae, Qoder — bunları bölümlere ayırır ve her birini kalıcı bir anı olarak kaydeder. İçerik anahtarlı bir defter, çalıştırmalar arasında ve dosyaları paylaşan araçlar arasında yinelemeleri giderir.
+`noema_import` on farklı yapay zeka kodlama aracının bellek dosyalarını okur — Codex, Claude Code, opencode, Cursor, Grok, WorkBuddy, Antigravity, Trae, Qoder, Hermes — bunları bölümlere ayırır ve her birini kalıcı bir anı olarak kaydeder. İçerik anahtarlı bir defter, çalıştırmalar arasında ve dosyaları paylaşan araçlar arasında yinelemeleri giderir.
 
 </td>
 </tr>
@@ -139,6 +139,7 @@ Her araç, `text` alanının sunucunun tam çıktısını taşıdığı tek tip 
 | `antigravity` | `~/.antigravity/AGENTS.md`, `~/.config/antigravity/AGENTS.md`, `~/Library/Application Support/Antigravity/AGENTS.md` (en iyi çabayla; henüz belgelenmiş genel bir bellek deposu yok) | `AGENTS.md`, `AGENTS.local.md` |
 | `trae` | `~/.trae/AGENTS.md`, `~/.trae/memory/`, `~/.trae/rules/` (artı `~/.trae-cn` varyantları) | `AGENTS.md`, `.trae/rules/` |
 | `qoder` | `~/.qoder-cn/AGENTS.md`, `~/.qoder-cn/rules/`, otomatik bellek kökleri `~/.qoder-cn/memory/` ve `~/.qoder-cn/projects/*/memory/` (artı `~/.qoder` varyantları) | `AGENTS.md`, `AGENTS.local.md`, `.qoder/rules/` |
+| `hermes` | `~/.hermes/memories/` (`MEMORY.md` + `USER.md`) ve genel `~/.hermes/SOUL.md` | `.hermes.md`, `HERMES.md`, `AGENTS.md`, `CLAUDE.md` |
 
 - `source` bağımsız değişkeni tek bir aracı seçer ya da ayarlarda etkinleştirilen her kaynağı çalıştırmak için onu atlayın.
 - `path` bağımsız değişkeni proje kapsamlı dosyalar için çalışma alanı kökünü seçer (varsayılan oturum çalışma alanıdır; çalışma alanı dosyaları yalnızca Import workspace files ayarı açıkken yüklenir).

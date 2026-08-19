@@ -7,11 +7,11 @@ import { IMPORTERS, importerById, resolveImporters } from '../lib/importers.js'
 import { MemoryImportService, importLedgerPath, ruleItem, splitMarkdown } from '../lib/import-service.js'
 import { NOEMA_MEMORY_SETTINGS_DEFAULTS } from '../lib/settings.js'
 
-test('importers declare the nine supported sources', () => {
-  assert.deepEqual(IMPORTERS.map(importer => importer.id), ['codex', 'claude-code', 'opencode', 'cursor', 'grok', 'workbuddy', 'antigravity', 'trae', 'qoder'])
-  assert.equal(resolveImporters(undefined).length, 9)
-  assert.equal(resolveImporters([]).length, 9)
-  assert.equal(resolveImporters(['all']).length, 9)
+test('importers declare the ten supported sources', () => {
+  assert.deepEqual(IMPORTERS.map(importer => importer.id), ['codex', 'claude-code', 'opencode', 'cursor', 'grok', 'workbuddy', 'antigravity', 'trae', 'qoder', 'hermes'])
+  assert.equal(resolveImporters(undefined).length, 10)
+  assert.equal(resolveImporters([]).length, 10)
+  assert.equal(resolveImporters(['all']).length, 10)
   assert.deepEqual(resolveImporters(['grok']).map(importer => importer.id), ['grok'])
   assert.deepEqual(resolveImporters(['cursor', 'codex']).map(importer => importer.id), ['codex', 'cursor'])
   assert.equal(importerById('nope'), undefined)
@@ -48,6 +48,13 @@ test('global candidates expand home paths', () => {
   assert.ok(qoder.globalCandidates().some(candidate => candidate.path.endsWith(join('.qoder-cn', 'AGENTS.md'))))
   assert.ok(qoder.globalCandidates().some(candidate => candidate.path.endsWith(join('.qoder-cn', 'projects'))))
   assert.equal(qoder.workspaceCandidates('/ws').length, 3)
+  const hermes = importerById('hermes')
+  assert.equal(hermes.globalCandidates().length, 2)
+  assert.ok(hermes.globalCandidates().some(candidate => candidate.kind === 'markdown-dir' && candidate.path.endsWith(join('.hermes', 'memories'))))
+  assert.ok(hermes.globalCandidates().some(candidate => candidate.path.endsWith(join('.hermes', 'SOUL.md'))))
+  assert.equal(hermes.workspaceCandidates('/ws').length, 4)
+  assert.ok(hermes.workspaceCandidates('/ws').some(candidate => candidate.path.endsWith('.hermes.md')))
+  assert.ok(hermes.workspaceCandidates('/ws').some(candidate => candidate.path.endsWith('HERMES.md')))
 })
 
 test('splitMarkdown splits headings and prefixes the source', () => {

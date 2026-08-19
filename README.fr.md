@@ -47,7 +47,7 @@ Les souvenirs persistent sous forme de fichiers Markdown inspectables sous `NOEM
 
 ### 📥 Import depuis d'autres outils
 
-`noema_import` lit les fichiers de mémoire de neuf autres outils de codage IA — Codex, Claude Code, opencode, Cursor, Grok, WorkBuddy, Antigravity, Trae, Qoder — les découpe en sections et enregistre chacune comme une mémoire durable. Un registre indexé par le contenu déduplique les importations entre les exécutions et entre les outils qui partagent des fichiers.
+`noema_import` lit les fichiers de mémoire de dix autres outils de codage IA — Codex, Claude Code, opencode, Cursor, Grok, WorkBuddy, Antigravity, Trae, Qoder, Hermes — les découpe en sections et enregistre chacune comme une mémoire durable. Un registre indexé par le contenu déduplique les importations entre les exécutions et entre les outils qui partagent des fichiers.
 
 </td>
 </tr>
@@ -139,6 +139,7 @@ Chaque outil renvoie une enveloppe uniforme `{ ok, tool, text }` où `text` cont
 | `antigravity` | `~/.antigravity/AGENTS.md`, `~/.config/antigravity/AGENTS.md`, `~/Library/Application Support/Antigravity/AGENTS.md` (au mieux ; aucun stockage de mémoire global documenté pour l'instant) | `AGENTS.md`, `AGENTS.local.md` |
 | `trae` | `~/.trae/AGENTS.md`, `~/.trae/memory/`, `~/.trae/rules/` (ainsi que les variantes `~/.trae-cn`) | `AGENTS.md`, `.trae/rules/` |
 | `qoder` | `~/.qoder-cn/AGENTS.md`, `~/.qoder-cn/rules/`, les racines de mémoire automatique `~/.qoder-cn/memory/` et `~/.qoder-cn/projects/*/memory/` (ainsi que les variantes `~/.qoder`) | `AGENTS.md`, `AGENTS.local.md`, `.qoder/rules/` |
+| `hermes` | `~/.hermes/memories/` (`MEMORY.md` + `USER.md`) et le fichier global `~/.hermes/SOUL.md` | `.hermes.md`, `HERMES.md`, `AGENTS.md`, `CLAUDE.md` |
 
 - L'argument `source` sélectionne un outil, ou omettez-le pour exécuter toutes les sources activées dans les paramètres.
 - L'argument `path` sélectionne la racine du workspace pour les fichiers au niveau du projet (par défaut le workspace de la session ; les fichiers du workspace ne se chargent que lorsque le paramètre Import workspace files est activé).

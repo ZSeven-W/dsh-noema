@@ -47,7 +47,7 @@ DSH Noema เชื่อมต่อ [DeepSeek Harness](https://github.com/deep
 
 ### 📥 นำเข้าจากเครื่องมืออื่น
 
-`noema_import` อ่านไฟล์หน่วยความจำของเครื่องมือเขียนโค้ด AI อีกเก้าตัว — Codex, Claude Code, opencode, Cursor, Grok, WorkBuddy, Antigravity, Trae, Qoder — แบ่งเป็นส่วนๆ และบันทึกแต่ละส่วนเป็นหน่วยความจำที่คงทน บัญชีแยกประเภทที่ใช้คีย์จากเนื้อหาจะกำจัดรายการซ้ำทั้งระหว่างการรันและระหว่างเครื่องมือที่ใช้ไฟล์ร่วมกัน
+`noema_import` อ่านไฟล์หน่วยความจำของเครื่องมือเขียนโค้ด AI อีกสิบตัว — Codex, Claude Code, opencode, Cursor, Grok, WorkBuddy, Antigravity, Trae, Qoder, Hermes — แบ่งเป็นส่วนๆ และบันทึกแต่ละส่วนเป็นหน่วยความจำที่คงทน บัญชีแยกประเภทที่ใช้คีย์จากเนื้อหาจะกำจัดรายการซ้ำทั้งระหว่างการรันและระหว่างเครื่องมือที่ใช้ไฟล์ร่วมกัน
 
 </td>
 </tr>
@@ -139,6 +139,7 @@ dsh web
 | `antigravity` | `~/.antigravity/AGENTS.md`, `~/.config/antigravity/AGENTS.md`, `~/Library/Application Support/Antigravity/AGENTS.md` (ทำเท่าที่ทำได้; ยังไม่มีที่เก็บหน่วยความจำส่วนกลางที่ระบุเป็นเอกสาร) | `AGENTS.md`, `AGENTS.local.md` |
 | `trae` | `~/.trae/AGENTS.md`, `~/.trae/memory/`, `~/.trae/rules/` (รวมถึงตัวแปร `~/.trae-cn`) | `AGENTS.md`, `.trae/rules/` |
 | `qoder` | `~/.qoder-cn/AGENTS.md`, `~/.qoder-cn/rules/`, รูทหน่วยความจำอัตโนมัติ `~/.qoder-cn/memory/` และ `~/.qoder-cn/projects/*/memory/` (รวมถึงตัวแปร `~/.qoder`) | `AGENTS.md`, `AGENTS.local.md`, `.qoder/rules/` |
+| `hermes` | `~/.hermes/memories/` (`MEMORY.md` + `USER.md`) และไฟล์โกลบอล `~/.hermes/SOUL.md` | `.hermes.md`, `HERMES.md`, `AGENTS.md`, `CLAUDE.md` |
 
 - อาร์กิวเมนต์ `source` เลือกเครื่องมือหนึ่งตัว หรือละไว้เพื่อรันทุกแหล่งที่เปิดใช้งานในการตั้งค่า
 - อาร์กิวเมนต์ `path` เลือกรูทของพื้นที่ทำงานสำหรับไฟล์ที่อยู่ในขอบเขตโปรเจกต์ (ค่าเริ่มต้นคือพื้นที่ทำงานของเซสชัน; ไฟล์ในพื้นที่ทำงานจะโหลดเฉพาะเมื่อเปิดการตั้งค่า Import workspace files)

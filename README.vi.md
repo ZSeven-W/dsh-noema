@@ -47,7 +47,7 @@ Ký ức được lưu trữ dưới dạng các tệp Markdown có thể kiểm
 
 ### 📥 Nhập Từ Các Công Cụ Khác
 
-`noema_import` đọc các tệp bộ nhớ của chín công cụ AI coding khác — Codex, Claude Code, opencode, Cursor, Grok, WorkBuddy, Antigravity, Trae, Qoder — chia chúng thành các phần và lưu mỗi phần như một ký ức bền vững. Một sổ cái khóa theo nội dung sẽ khử trùng lặp giữa các lần chạy và giữa các công cụ dùng chung tệp.
+`noema_import` đọc các tệp bộ nhớ của mười công cụ AI coding khác — Codex, Claude Code, opencode, Cursor, Grok, WorkBuddy, Antigravity, Trae, Qoder, Hermes — chia chúng thành các phần và lưu mỗi phần như một ký ức bền vững. Một sổ cái khóa theo nội dung sẽ khử trùng lặp giữa các lần chạy và giữa các công cụ dùng chung tệp.
 
 </td>
 </tr>
@@ -139,6 +139,7 @@ Mỗi công cụ trả về một lớp bọc đồng nhất `{ ok, tool, text }
 | `antigravity` | `~/.antigravity/AGENTS.md`, `~/.config/antigravity/AGENTS.md`, `~/Library/Application Support/Antigravity/AGENTS.md` (nỗ lực tối đa; chưa có kho bộ nhớ toàn cục được ghi nhận) | `AGENTS.md`, `AGENTS.local.md` |
 | `trae` | `~/.trae/AGENTS.md`, `~/.trae/memory/`, `~/.trae/rules/` (cộng với các biến thể `~/.trae-cn`) | `AGENTS.md`, `.trae/rules/` |
 | `qoder` | `~/.qoder-cn/AGENTS.md`, `~/.qoder-cn/rules/`, các thư mục gốc bộ nhớ tự động `~/.qoder-cn/memory/` và `~/.qoder-cn/projects/*/memory/` (cộng với các biến thể `~/.qoder`) | `AGENTS.md`, `AGENTS.local.md`, `.qoder/rules/` |
+| `hermes` | `~/.hermes/memories/` (`MEMORY.md` + `USER.md`) và tệp toàn cục `~/.hermes/SOUL.md` | `.hermes.md`, `HERMES.md`, `AGENTS.md`, `CLAUDE.md` |
 
 - Đối số `source` chọn một công cụ, hoặc bỏ qua để chạy mọi nguồn đã được bật trong cài đặt.
 - Đối số `path` chọn thư mục gốc workspace cho các tệp theo phạm vi dự án (mặc định là workspace của phiên; các tệp workspace chỉ được nạp khi cài đặt Import workspace files được bật).

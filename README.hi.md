@@ -47,7 +47,7 @@ DSH Noema, [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness) �
 
 ### 📥 अन्य टूल से आयात
 
-`noema_import` नौ अन्य AI कोडिंग टूल — Codex, Claude Code, opencode, Cursor, Grok, WorkBuddy, Antigravity, Trae, Qoder — की स्मृति फ़ाइलों को पढ़ता है, उन्हें खंडों में विभाजित करता है, और प्रत्येक को एक टिकाऊ स्मृति के रूप में सहेजता है। सामग्री-कुंजी वाला बही-खाता विभिन्न रन और साझा फ़ाइलों वाले टूल के बीच डुप्लिकेट हटाता है।
+`noema_import` दस अन्य AI कोडिंग टूल — Codex, Claude Code, opencode, Cursor, Grok, WorkBuddy, Antigravity, Trae, Qoder, Hermes — की स्मृति फ़ाइलों को पढ़ता है, उन्हें खंडों में विभाजित करता है, और प्रत्येक को एक टिकाऊ स्मृति के रूप में सहेजता है। सामग्री-कुंजी वाला बही-खाता विभिन्न रन और साझा फ़ाइलों वाले टूल के बीच डुप्लिकेट हटाता है।
 
 </td>
 </tr>
@@ -139,6 +139,7 @@ dsh web
 | `antigravity` | `~/.antigravity/AGENTS.md`, `~/.config/antigravity/AGENTS.md`, `~/Library/Application Support/Antigravity/AGENTS.md` (सर्वोत्तम प्रयास; अभी तक कोई दस्तावेज़ीकृत वैश्विक स्मृति स्टोर नहीं) | `AGENTS.md`, `AGENTS.local.md` |
 | `trae` | `~/.trae/AGENTS.md`, `~/.trae/memory/`, `~/.trae/rules/` (`~/.trae-cn` वेरिएंट सहित) | `AGENTS.md`, `.trae/rules/` |
 | `qoder` | `~/.qoder-cn/AGENTS.md`, `~/.qoder-cn/rules/`, ऑटो-मेमोरी रूट `~/.qoder-cn/memory/` और `~/.qoder-cn/projects/*/memory/` (`~/.qoder` वेरिएंट सहित) | `AGENTS.md`, `AGENTS.local.md`, `.qoder/rules/` |
+| `hermes` | `~/.hermes/memories/` (`MEMORY.md` + `USER.md`) और वैश्विक `~/.hermes/SOUL.md` | `.hermes.md`, `HERMES.md`, `AGENTS.md`, `CLAUDE.md` |
 
 - `source` तर्क एक टूल चुनता है, या सेटिंग्स में सक्षम हर स्रोत को चलाने के लिए इसे छोड़ दें।
 - `path` तर्क प्रोजेक्ट-स्कोप्ड फ़ाइलों के लिए वर्कस्पेस रूट चुनता है (डिफ़ॉल्ट सत्र वर्कस्पेस है; वर्कस्पेस फ़ाइलें केवल तभी लोड होती हैं जब Import workspace files सेटिंग चालू हो)।

@@ -47,7 +47,7 @@ Las memorias persisten como archivos Markdown inspeccionables bajo `NOEMA_ROOT` 
 
 ### 📥 Importar desde otras herramientas
 
-`noema_import` lee los archivos de memoria de otras nueve herramientas de programación con IA — Codex, Claude Code, opencode, Cursor, Grok, WorkBuddy, Antigravity, Trae, Qoder — los divide en secciones y guarda cada una como una memoria duradera. Un registro indexado por contenido deduplica entre ejecuciones y entre herramientas que comparten archivos.
+`noema_import` lee los archivos de memoria de otras diez herramientas de programación con IA — Codex, Claude Code, opencode, Cursor, Grok, WorkBuddy, Antigravity, Trae, Qoder, Hermes — los divide en secciones y guarda cada una como una memoria duradera. Un registro indexado por contenido deduplica entre ejecuciones y entre herramientas que comparten archivos.
 
 </td>
 </tr>
@@ -139,6 +139,7 @@ Cada herramienta devuelve una envoltura uniforme `{ ok, tool, text }` donde `tex
 | `antigravity` | `~/.antigravity/AGENTS.md`, `~/.config/antigravity/AGENTS.md`, `~/Library/Application Support/Antigravity/AGENTS.md` (mejor esfuerzo; todavía no hay un almacén de memoria global documentado) | `AGENTS.md`, `AGENTS.local.md` |
 | `trae` | `~/.trae/AGENTS.md`, `~/.trae/memory/`, `~/.trae/rules/` (además de las variantes `~/.trae-cn`) | `AGENTS.md`, `.trae/rules/` |
 | `qoder` | `~/.qoder-cn/AGENTS.md`, `~/.qoder-cn/rules/`, las raíces de memoria automática `~/.qoder-cn/memory/` y `~/.qoder-cn/projects/*/memory/` (además de las variantes `~/.qoder`) | `AGENTS.md`, `AGENTS.local.md`, `.qoder/rules/` |
+| `hermes` | `~/.hermes/memories/` (`MEMORY.md` + `USER.md`) y el archivo global `~/.hermes/SOUL.md` | `.hermes.md`, `HERMES.md`, `AGENTS.md`, `CLAUDE.md` |
 
 - El argumento `source` selecciona una herramienta, u omítalo para ejecutar todas las fuentes habilitadas en los ajustes.
 - El argumento `path` selecciona la raíz del workspace para los archivos con ámbito de proyecto (por defecto el workspace de la sesión; los archivos del workspace solo se cargan cuando el ajuste Import workspace files está activado).

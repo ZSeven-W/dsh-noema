@@ -47,7 +47,7 @@ Erinnerungen bleiben als überprüfbare Markdown-Dateien unter `NOEMA_ROOT` (Sta
 
 ### 📥 Import aus anderen Tools
 
-`noema_import` liest die Gedächtnisdateien von neun anderen KI-Coding-Tools — Codex, Claude Code, opencode, Cursor, Grok, WorkBuddy, Antigravity, Trae, Qoder —, teilt sie in Abschnitte auf und speichert jeden als dauerhafte Erinnerung. Ein inhaltsbasiertes Ledger dedupliziert über Läufe hinweg sowie über Tools, die Dateien gemeinsam nutzen.
+`noema_import` liest die Gedächtnisdateien von zehn anderen KI-Coding-Tools — Codex, Claude Code, opencode, Cursor, Grok, WorkBuddy, Antigravity, Trae, Qoder, Hermes —, teilt sie in Abschnitte auf und speichert jeden als dauerhafte Erinnerung. Ein inhaltsbasiertes Ledger dedupliziert über Läufe hinweg sowie über Tools, die Dateien gemeinsam nutzen.
 
 </td>
 </tr>
@@ -139,6 +139,7 @@ Jedes Tool gibt einen einheitlichen Umschlag `{ ok, tool, text }` zurück, wobei
 | `antigravity` | `~/.antigravity/AGENTS.md`, `~/.config/antigravity/AGENTS.md`, `~/Library/Application Support/Antigravity/AGENTS.md` (Best-Effort; noch kein dokumentierter globaler Gedächtnisspeicher) | `AGENTS.md`, `AGENTS.local.md` |
 | `trae` | `~/.trae/AGENTS.md`, `~/.trae/memory/`, `~/.trae/rules/` (plus die `~/.trae-cn`-Varianten) | `AGENTS.md`, `.trae/rules/` |
 | `qoder` | `~/.qoder-cn/AGENTS.md`, `~/.qoder-cn/rules/`, die Auto-Memory-Roots `~/.qoder-cn/memory/` und `~/.qoder-cn/projects/*/memory/` (plus die `~/.qoder`-Varianten) | `AGENTS.md`, `AGENTS.local.md`, `.qoder/rules/` |
+| `hermes` | `~/.hermes/memories/` (`MEMORY.md` + `USER.md`) und die globale `~/.hermes/SOUL.md` | `.hermes.md`, `HERMES.md`, `AGENTS.md`, `CLAUDE.md` |
 
 - Das Argument `source` wählt ein Tool aus; lasse es weg, um jede in den Einstellungen aktivierte Quelle auszuführen.
 - Das Argument `path` wählt das Workspace-Root für projektbezogene Dateien (Standard: der Sitzungs-Workspace; Workspace-Dateien werden nur geladen, wenn die Einstellung „Workspace-Dateien importieren“ aktiviert ist).

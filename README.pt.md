@@ -47,7 +47,7 @@ As memórias persistem como ficheiros Markdown inspecionáveis sob `NOEMA_ROOT` 
 
 ### 📥 Importar de outras ferramentas
 
-O `noema_import` lê os ficheiros de memória de nove outras ferramentas de programação com IA — Codex, Claude Code, opencode, Cursor, Grok, WorkBuddy, Antigravity, Trae, Qoder —, divide-os em secções e guarda cada uma como uma memória duradoura. Um registo (ledger) indexado por conteúdo elimina duplicados entre execuções e entre ferramentas que partilham ficheiros.
+O `noema_import` lê os ficheiros de memória de dez outras ferramentas de programação com IA — Codex, Claude Code, opencode, Cursor, Grok, WorkBuddy, Antigravity, Trae, Qoder, Hermes —, divide-os em secções e guarda cada uma como uma memória duradoura. Um registo (ledger) indexado por conteúdo elimina duplicados entre execuções e entre ferramentas que partilham ficheiros.
 
 </td>
 </tr>
@@ -139,6 +139,7 @@ Cada ferramenta devolve um envelope uniforme `{ ok, tool, text }`, em que `text`
 | `antigravity` | `~/.antigravity/AGENTS.md`, `~/.config/antigravity/AGENTS.md`, `~/Library/Application Support/Antigravity/AGENTS.md` (melhor esforço; ainda sem armazenamento global de memória documentado) | `AGENTS.md`, `AGENTS.local.md` |
 | `trae` | `~/.trae/AGENTS.md`, `~/.trae/memory/`, `~/.trae/rules/` (mais as variantes `~/.trae-cn`) | `AGENTS.md`, `.trae/rules/` |
 | `qoder` | `~/.qoder-cn/AGENTS.md`, `~/.qoder-cn/rules/`, as raízes de memória automática `~/.qoder-cn/memory/` e `~/.qoder-cn/projects/*/memory/` (mais as variantes `~/.qoder`) | `AGENTS.md`, `AGENTS.local.md`, `.qoder/rules/` |
+| `hermes` | `~/.hermes/memories/` (`MEMORY.md` + `USER.md`) e o ficheiro global `~/.hermes/SOUL.md` | `.hermes.md`, `HERMES.md`, `AGENTS.md`, `CLAUDE.md` |
 
 - O argumento `source` seleciona uma ferramenta; omite-o para executar todas as origens ativadas nas definições.
 - O argumento `path` seleciona a raiz do workspace para ficheiros de âmbito do projeto (predefinição: o workspace da sessão; os ficheiros do workspace só são carregados quando a definição «Importar ficheiros do workspace» está ativada).
