@@ -10,7 +10,7 @@
 </p>
 
 <p align="center">
-  <sub>npm: <a href="https://www.npmjs.com/package/@zseven-w/dsh-noema"><code>@zseven-w/dsh-noema</code></a> · Phiên bản plugin hiện tại: <code>0.1.0-rc.1</code> · Đã kiểm thử với DSH <code>0.1.0-rc.6</code></sub>
+  <sub>npm: <a href="https://www.npmjs.com/package/@zseven-w/dsh-noema"><code>@zseven-w/dsh-noema</code></a> · Phiên bản plugin hiện tại: <code>0.1.0-rc.2</code> · Đã kiểm thử với DSH <code>0.1.0-rc.6</code></sub>
 </p>
 
 <p align="center">

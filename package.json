@@ -1,6 +1,6 @@
 {
   "name": "@zseven-w/dsh-noema",
-  "version": "0.1.0-rc.1",
+  "version": "0.1.0-rc.2",
   "description": "Noema long-term memory plugin for DSH: durable, inspectable agent memory with recall tools and a settings page.",
   "license": "MIT",
   "keywords": [
@@ -85,12 +85,12 @@
     "react-dom": "^18.2.0"
   },
   "optionalDependencies": {
-    "@zseven-w/dsh-noema-darwin-arm64": "0.1.0-rc.1",
-    "@zseven-w/dsh-noema-darwin-x64": "0.1.0-rc.1",
-    "@zseven-w/dsh-noema-linux-arm64": "0.1.0-rc.1",
-    "@zseven-w/dsh-noema-linux-x64": "0.1.0-rc.1",
-    "@zseven-w/dsh-noema-win32-arm64": "0.1.0-rc.1",
-    "@zseven-w/dsh-noema-win32-x64": "0.1.0-rc.1"
+    "@zseven-w/dsh-noema-darwin-arm64": "0.1.0-rc.2",
+    "@zseven-w/dsh-noema-darwin-x64": "0.1.0-rc.2",
+    "@zseven-w/dsh-noema-linux-arm64": "0.1.0-rc.2",
+    "@zseven-w/dsh-noema-linux-x64": "0.1.0-rc.2",
+    "@zseven-w/dsh-noema-win32-arm64": "0.1.0-rc.2",
+    "@zseven-w/dsh-noema-win32-x64": "0.1.0-rc.2"
   },
   "devDependencies": {
     "@types/node": "^22.0.0",

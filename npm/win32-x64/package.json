@@ -1,6 +1,6 @@
 {
   "name": "@zseven-w/dsh-noema-win32-x64",
-  "version": "0.1.0-rc.1",
+  "version": "0.1.0-rc.2",
   "description": "Native noema-mcp binary for dsh-noema on Windows x64.",
   "license": "MIT",
   "repository": {

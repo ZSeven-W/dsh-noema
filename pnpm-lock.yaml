@@ -65,23 +65,23 @@ importers:
         version: 6.0.3
     optionalDependencies:
       '@zseven-w/dsh-noema-darwin-arm64':
-        specifier: 0.1.0-rc.1
-        version: 0.1.0-rc.1
+        specifier: 0.1.0-rc.2
+        version: link:npm/darwin-arm64
       '@zseven-w/dsh-noema-darwin-x64':
-        specifier: 0.1.0-rc.1
-        version: 0.1.0-rc.1
+        specifier: 0.1.0-rc.2
+        version: link:npm/darwin-x64
       '@zseven-w/dsh-noema-linux-arm64':
-        specifier: 0.1.0-rc.1
-        version: 0.1.0-rc.1
+        specifier: 0.1.0-rc.2
+        version: link:npm/linux-arm64
       '@zseven-w/dsh-noema-linux-x64':
-        specifier: 0.1.0-rc.1
-        version: 0.1.0-rc.1
+        specifier: 0.1.0-rc.2
+        version: link:npm/linux-x64
       '@zseven-w/dsh-noema-win32-arm64':
-        specifier: 0.1.0-rc.1
-        version: 0.1.0-rc.1
+        specifier: 0.1.0-rc.2
+        version: link:npm/win32-arm64
       '@zseven-w/dsh-noema-win32-x64':
-        specifier: 0.1.0-rc.1
-        version: 0.1.0-rc.1
+        specifier: 0.1.0-rc.2
+        version: link:npm/win32-x64
 
   npm/darwin-arm64: {}
 
@@ -1051,42 +1051,6 @@ packages:
 
   '@yuku-toolchain/types@0.8.7':
     resolution: {integrity: sha512-2Z53dNxAJL6UvFoIrDZvYf3zlO8s4VJK4O2hhaB4mXVwwpX/7ajtss3cmfqKvamlNLWyt9FSWs4eoYdlbxpnHA==}
-
-  '@zseven-w/dsh-noema-darwin-arm64@0.1.0-rc.1':
-    resolution: {integrity: sha512-onphhpOeM3T4XGTS7j7twSOUrs7p8LUujQI8CoLgjshIbYwTLDdbjqYyiHp82oRyzlrLMGoMJFF8+f28y7AvoQ==}
-    engines: {node: '>=24.11.0'}
-    cpu: [arm64]
-    os: [darwin]
-
-  '@zseven-w/dsh-noema-darwin-x64@0.1.0-rc.1':
-    resolution: {integrity: sha512-zasFsSCeMKFs0l2yjyd+Fbp4PuoiE4CpQeup3JMkpOhS1BrZa46gmCaNbA7tuhfKUlSU4yxWTwNw30s7jtZQtw==}
-    engines: {node: '>=24.11.0'}
-    cpu: [x64]
-    os: [darwin]
-
-  '@zseven-w/dsh-noema-linux-arm64@0.1.0-rc.1':
-    resolution: {integrity: sha512-ZFaH8D3dRLp39gi+4aUBujmXE3XSHgIAR9xkuNMBlsJRKsOzcFYgqzpXOX5UqzYA3jfkSOA5xad23nv0+5uxtQ==}
-    engines: {node: '>=24.11.0'}
-    cpu: [arm64]
-    os: [linux]
-
-  '@zseven-w/dsh-noema-linux-x64@0.1.0-rc.1':
-    resolution: {integrity: sha512-1eturuMm+LPC4ezykF4EOYOJQzcGyQGha4TG8fSRifundbqvCdOv2S/5HlKr3gOyeHKIeIaMHwyU+cYza4CUmQ==}
-    engines: {node: '>=24.11.0'}
-    cpu: [x64]
-    os: [linux]
-
-  '@zseven-w/dsh-noema-win32-arm64@0.1.0-rc.1':
-    resolution: {integrity: sha512-qttVniiDsY4meVyA2roM79DGgOt61HiYuHiXAfTWBQCn52NPCbH3Un9x/f7qIhTCgxgzLiqVT9JYFSxlm+HWtQ==}
-    engines: {node: '>=24.11.0'}
-    cpu: [arm64]
-    os: [win32]
-
-  '@zseven-w/dsh-noema-win32-x64@0.1.0-rc.1':
-    resolution: {integrity: sha512-533aOUakkIRMTifs2/n2fkKuGb3xtxnkW2cuoHsYlyVxcb2AXGMC4ah48+wYWYfdxNuXaHyt5AfN2ihglB0JNg==}
-    engines: {node: '>=24.11.0'}
-    cpu: [x64]
-    os: [win32]
 
   anser@2.3.5:
     resolution: {integrity: sha512-vcZjxvvVoxTeR5XBNJB38oTu/7eDCZlwdz32N1eNgpyPF7j/Z7Idf+CUwQOkKKpJ7RJyjxgLHCM7vdIK0iCNMQ==}
@@ -2452,24 +2416,6 @@ snapshots:
     optional: true
 
   '@yuku-toolchain/types@0.8.7': {}
-
-  '@zseven-w/dsh-noema-darwin-arm64@0.1.0-rc.1':
-    optional: true
-
-  '@zseven-w/dsh-noema-darwin-x64@0.1.0-rc.1':
-    optional: true
-
-  '@zseven-w/dsh-noema-linux-arm64@0.1.0-rc.1':
-    optional: true
-
-  '@zseven-w/dsh-noema-linux-x64@0.1.0-rc.1':
-    optional: true
-
-  '@zseven-w/dsh-noema-win32-arm64@0.1.0-rc.1':
-    optional: true
-
-  '@zseven-w/dsh-noema-win32-x64@0.1.0-rc.1':
-    optional: true
 
   anser@2.3.5: {}
 
