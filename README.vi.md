@@ -200,6 +200,7 @@ Bài kiểm thử e2e chạy với `noema/target/debug/noema-mcp` khi có mặt 
 
 ## Hệ sinh thái
 
+- [DSH Android](https://github.com/ZSeven-W/dsh-android) — trình giả lập Android hoặc thiết bị cắm USB trực tiếp ngay trong hội thoại, điều khiển hoàn toàn qua adb
 - [DSH Crew](https://github.com/ZSeven-W/dsh-crew) — giao việc cho agent DSH từ Claude Code / Codex
 - [DSH iOS](https://github.com/ZSeven-W/dsh-ios) — một iOS Simulator sống động — và iPhone kết nối USB — ngay trong hội thoại
 - [DSH OpenPencil](https://github.com/ZSeven-W/dsh-openpencil) — xem và chỉnh sửa tài liệu thiết kế `.op` ngay trong hội thoại

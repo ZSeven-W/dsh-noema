@@ -200,6 +200,7 @@ pnpm test          # build + node --test tests/
 
 ## ระบบนิเวศ
 
+- [DSH Android](https://github.com/ZSeven-W/dsh-android) — อีมูเลเตอร์ Android หรืออุปกรณ์ผ่าน USB แบบสดภายในบทสนทนา ขับเคลื่อนทั้งหมดผ่าน adb
 - [DSH Crew](https://github.com/ZSeven-W/dsh-crew) — มอบหมายงานให้เอเจนต์ DSH จาก Claude Code / Codex
 - [DSH iOS](https://github.com/ZSeven-W/dsh-ios) — iOS Simulator ที่ทำงานจริง — และ iPhone ที่ต่อผ่าน USB — ภายในบทสนทนา
 - [DSH OpenPencil](https://github.com/ZSeven-W/dsh-openpencil) — ตรวจดูและแก้ไขเอกสารออกแบบ `.op` ในบทสนทนา

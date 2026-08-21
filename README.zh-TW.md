@@ -200,6 +200,7 @@ e2e 測試會在存在 `noema/target/debug/noema-mcp` 時針對它執行（否�
 
 ## 生態系
 
+- [DSH Android](https://github.com/ZSeven-W/dsh-android) — 在對話中執行 Android 模擬器或 USB 實機，全部由 adb 驅動
 - [DSH Crew](https://github.com/ZSeven-W/dsh-crew) — 從 Claude Code / Codex 把任務派給 DSH agent
 - [DSH iOS](https://github.com/ZSeven-W/dsh-ios) — 在對話中執行 iOS 模擬器與 USB 連接的實機
 - [DSH OpenPencil](https://github.com/ZSeven-W/dsh-openpencil) — 在對話中檢視與編輯 `.op` 設計文件

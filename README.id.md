@@ -200,6 +200,7 @@ Pengujian e2e berjalan terhadap `noema/target/debug/noema-mcp` ketika tersedia (
 
 ## Ekosistem
 
+- [DSH Android](https://github.com/ZSeven-W/dsh-android) — emulator Android atau perangkat USB langsung di dalam percakapan, digerakkan sepenuhnya melalui adb
 - [DSH Crew](https://github.com/ZSeven-W/dsh-crew) — delegasikan pekerjaan ke agen DSH dari Claude Code / Codex
 - [DSH iOS](https://github.com/ZSeven-W/dsh-ios) — iOS Simulator langsung — dan iPhone via USB — di dalam percakapan
 - [DSH OpenPencil](https://github.com/ZSeven-W/dsh-openpencil) — periksa dan edit dokumen desain `.op` di dalam percakapan

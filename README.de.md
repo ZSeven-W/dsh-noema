@@ -200,6 +200,7 @@ Der E2E-Test läuft gegen `noema/target/debug/noema-mcp`, wenn vorhanden (andern
 
 ## Ökosystem
 
+- [DSH Android](https://github.com/ZSeven-W/dsh-android) — ein Live-Android-Emulator oder USB-Gerät in der Konversation, vollständig über adb gesteuert
 - [DSH Crew](https://github.com/ZSeven-W/dsh-crew) — Arbeit aus Claude Code / Codex an DSH-Agenten delegieren
 - [DSH iOS](https://github.com/ZSeven-W/dsh-ios) — ein lebender iOS-Simulator — und ein iPhone per USB — in der Konversation
 - [DSH OpenPencil](https://github.com/ZSeven-W/dsh-openpencil) — `.op`-Designdokumente in einer Konversation prüfen und bearbeiten
