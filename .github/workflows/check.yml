@@ -6,9 +6,9 @@ name: Plugin check
 # scripts, or the Noema engine) feeds the build.
 #
 # The DSH host/client packages are peer dependencies resolved from the public
-# npm registry by `npm ci`. The e2e test needs a built noema-mcp binary; on
-# CI it is skipped unless REQUIRE_NOEMA_E2E is set (the release workflow runs
-# it after building the real binary).
+# npm registry by `pnpm install`. The e2e test needs a built noema-mcp binary;
+# on CI it is skipped unless REQUIRE_NOEMA_E2E is set (the release workflow
+# runs it after building the real binary).
 
 on:
   pull_request:
