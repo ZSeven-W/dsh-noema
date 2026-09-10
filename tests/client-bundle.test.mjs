@@ -35,3 +35,13 @@ test('client bundle registers its section without touching the generic settingsS
   })
   assert.equal(registeredSection, 'noema-memory')
 })
+
+test('client declaration only injects packages that exist on DSH 0.1.5', async () => {
+  // @deepseek-ai/dsh-client-runtime was removed in 0.1.5 (ctx.slots now comes
+  // from dsh-client-ui-renderer); the inject list must not name it.
+  const manifest = JSON.parse(await readFile(new URL('../package.json', import.meta.url), 'utf8'))
+  const inject = manifest.dsh.client.inject
+  assert.equal(inject.includes('@deepseek-ai/dsh-client-runtime'), false)
+  assert.ok(inject.includes('@deepseek-ai/dsh-client-ui-renderer'))
+  assert.equal(Object.hasOwn(manifest.peerDependencies, '@deepseek-ai/dsh-client-runtime'), false)
+})

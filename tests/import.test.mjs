@@ -7,6 +7,18 @@ import { IMPORTERS, importerById, resolveImporters } from '../lib/importers.js'
 import { MemoryImportService, importLedgerPath, ruleItem, splitMarkdown } from '../lib/import-service.js'
 import { NOEMA_MEMORY_SETTINGS_DEFAULTS } from '../lib/settings.js'
 
+/**
+ * Put saved environment variables back. Assigning `undefined` to process.env
+ * stores the string "undefined", which is how a stray `undefined/storages`
+ * directory used to appear in the repo root after every test run.
+ */
+function restoreEnv(previous) {
+  for (const [key, value] of Object.entries(previous)) {
+    if (value === undefined) delete process.env[key]
+    else process.env[key] = value
+  }
+}
+
 test('importers declare the ten supported sources', () => {
   assert.deepEqual(IMPORTERS.map(importer => importer.id), ['codex', 'claude-code', 'opencode', 'cursor', 'grok', 'workbuddy', 'antigravity', 'trae', 'qoder', 'hermes'])
   assert.equal(resolveImporters(undefined).length, 10)
@@ -97,7 +109,7 @@ test('import service reads fixtures, dedupes via ledger, and tags items', async 
   await writeFile(join(home, '.grok', 'AGENTS.md'), 'Grok global memory.', 'utf8')
   await writeFile(join(workspace, 'AGENTS.md'), 'Workspace AGENTS.md', 'utf8')
 
-  const previousDshHome = process.env.DSH_HOME
+  const previousEnv = { DSH_HOME: process.env.DSH_HOME, HOME: process.env.HOME }
   process.env.DSH_HOME = home
   process.env.HOME = home
   const remembered = []
@@ -137,7 +149,7 @@ test('import service reads fixtures, dedupes via ledger, and tags items', async 
       assert.equal(call.args.accept, true)
     }
   } finally {
-    process.env.DSH_HOME = previousDshHome
+    restoreEnv(previousEnv)
     await rm(root, { recursive: true, force: true })
   }
 })
@@ -152,10 +164,13 @@ test('import service refuses when disabled', async () => {
 })
 
 test('ledger path resolves under DSH_HOME', async () => {
-  const previous = process.env.DSH_HOME
+  const previousEnv = { DSH_HOME: process.env.DSH_HOME }
   process.env.DSH_HOME = '/tmp/fake-dsh-home'
-  assert.equal(importLedgerPath(), '/tmp/fake-dsh-home/storages/dsh-noema-imports.json')
-  process.env.DSH_HOME = previous
+  try {
+    assert.equal(importLedgerPath(), '/tmp/fake-dsh-home/storages/dsh-noema-imports.json')
+  } finally {
+    restoreEnv(previousEnv)
+  }
 })
 test('markdown-dir importer walks nested memory files and skips others', async () => {
   const root = await mkdtemp(join(tmpdir(), 'dsh-noema-walk-'))
@@ -173,7 +188,7 @@ test('markdown-dir importer walks nested memory files and skips others', async (
   const remembered = []
   const manager = { async call(name, args) { remembered.push(args.text); return { text: '{}' } } }
 
-  const previousHome = process.env.HOME
+  const previousEnv = { HOME: process.env.HOME }
   process.env.HOME = root
   const config = { ...NOEMA_MEMORY_SETTINGS_DEFAULTS, importEnabled: true, importWorkspaceFiles: false, importSources: ['grok'] }
   const service = new MemoryImportService(manager, () => config, { info() {}, warn() {} })
@@ -186,7 +201,7 @@ test('markdown-dir importer walks nested memory files and skips others', async (
     assert.ok(texts.includes('Session summary.'))
     assert.ok(!texts.includes('not imported'))
   } finally {
-    process.env.HOME = previousHome
+    restoreEnv(previousEnv)
     await rm(root, { recursive: true, force: true })
   }
 })

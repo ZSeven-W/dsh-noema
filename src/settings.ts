@@ -8,7 +8,7 @@
  */
 import type { Context } from '@deepseek-ai/cordis'
 import z from '@deepseek-ai/schemastery'
-import { settingsNamespace } from '@deepseek-ai/dsh-settings'
+import type { SettingsProvider } from '@deepseek-ai/dsh-settings'
 import { IMPORTER_IDS } from './importers.js'
 import { NOEMA_MEMORY_SETTINGS_NAMESPACE } from './names.js'
 
@@ -74,11 +74,16 @@ export const NOEMA_MEMORY_SETTINGS_DEFAULTS: NoemaMemorySettings = {
   importSources: ['codex', 'claude-code', 'opencode', 'cursor', 'grok', 'workbuddy', 'antigravity', 'trae', 'qoder', 'hermes'],
 }
 
-/** Branded settings namespace. */
-export const NOEMA_MEMORY_SETTINGS_NS = settingsNamespace(NOEMA_MEMORY_SETTINGS_NAMESPACE)
+/**
+ * Settings namespace passed to `settings.register`. Since DSH 0.1.5 the
+ * provider takes the plain literal and validates it itself (the exported
+ * `settingsNamespace` brand helper was removed), so this stays a `const`
+ * literal that older hosts accept as-is.
+ */
+export const NOEMA_MEMORY_SETTINGS_NS = NOEMA_MEMORY_SETTINGS_NAMESPACE
 
 /** Schemastery schema of the settings section. */
-export const NOEMA_MEMORY_SETTINGS_SCHEMA = z.object({
+export const NOEMA_MEMORY_SETTINGS_SCHEMA: z<NoemaMemorySettings> = z.object({
   enabled: z.boolean().default(NOEMA_MEMORY_SETTINGS_DEFAULTS.enabled),
   command: z.string().default(NOEMA_MEMORY_SETTINGS_DEFAULTS.command),
   workingDirectory: z.string().default(NOEMA_MEMORY_SETTINGS_DEFAULTS.workingDirectory),
@@ -100,7 +105,7 @@ export const NOEMA_MEMORY_SETTINGS_SCHEMA = z.object({
 })
 
 /** Entry-config face accepted by the cordis loader for this plugin. */
-export const Config = NOEMA_MEMORY_SETTINGS_SCHEMA
+export const Config: z<NoemaMemorySettings> = NOEMA_MEMORY_SETTINGS_SCHEMA
 
 type NumericSettingField = 'idleTimeoutMs' | 'callTimeoutMs' | 'restartDelayMs'
 
@@ -164,7 +169,8 @@ export function installNoemaMemorySettings(
   hooks.setSource(() => fallback)
   hooks.setWriter(undefined)
   ctx.inject(['settings'], (settingsCtx) => {
-    const scope = settingsCtx.settings.register(NOEMA_MEMORY_SETTINGS_NS, NOEMA_MEMORY_SETTINGS_SCHEMA, {
+    const settings = (settingsCtx as Context & { settings: SettingsProvider }).settings
+    const scope = settings.register(NOEMA_MEMORY_SETTINGS_NS, NOEMA_MEMORY_SETTINGS_SCHEMA, {
       base: entry,
       validate: validateNoemaMemorySettings,
     })

@@ -1,6 +1,6 @@
 {
   "name": "@zseven-w/dsh-noema",
-  "version": "0.1.0-rc.3",
+  "version": "0.1.0-rc.4",
   "description": "Noema long-term memory plugin for DSH: durable, inspectable agent memory with recall tools and a settings page.",
   "license": "MIT",
   "keywords": [
@@ -62,7 +62,7 @@
     },
     "client": {
       "inject": [
-        "@deepseek-ai/dsh-client-runtime",
+        "@deepseek-ai/dsh-client-ui-renderer",
         "@deepseek-ai/dsh-client-locale",
         "@deepseek-ai/dsh-client-ui-settings"
       ],
@@ -70,26 +70,26 @@
     }
   },
   "peerDependencies": {
-    "@deepseek-ai/cordis": "^4.0.1",
-    "@deepseek-ai/dsh-tools": "^0.1.0-rc.6",
-    "@deepseek-ai/dsh-settings": "^0.1.0-rc.6",
-    "@deepseek-ai/dsh-system-prompt": "^0.1.0-rc.6",
-    "@deepseek-ai/dsh-host-webserver": "^0.1.0-rc.6",
-    "@deepseek-ai/schemastery": "^3.0.0",
-    "@deepseek-ai/dsh-client-locale": "^0.1.0-rc.6",
-    "@deepseek-ai/dsh-client-runtime": "^0.1.0-rc.6",
-    "@deepseek-ai/dsh-client-ui-slots": "^0.1.0-rc.6",
-    "@deepseek-ai/dsh-client-ui-settings": "^0.1.0-rc.6",
+    "@deepseek-ai/cordis": "^4.0.2",
+    "@deepseek-ai/dsh-tools": "^0.1.5-rc.1",
+    "@deepseek-ai/dsh-settings": "^0.1.5-rc.1",
+    "@deepseek-ai/dsh-system-prompt": "^0.1.5-rc.1",
+    "@deepseek-ai/dsh-host-webserver": "^0.1.5-rc.1",
+    "@deepseek-ai/schemastery": "^3.18.2",
+    "@deepseek-ai/dsh-client-locale": "^0.1.5-rc.1",
+    "@deepseek-ai/dsh-client-ui-slots": "^0.1.5-rc.1",
+    "@deepseek-ai/dsh-client-ui-renderer": "^0.1.5-rc.1",
+    "@deepseek-ai/dsh-client-ui-settings": "^0.1.5-rc.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
   "optionalDependencies": {
-    "@zseven-w/dsh-noema-darwin-arm64": "0.1.0-rc.3",
-    "@zseven-w/dsh-noema-darwin-x64": "0.1.0-rc.3",
-    "@zseven-w/dsh-noema-linux-arm64": "0.1.0-rc.3",
-    "@zseven-w/dsh-noema-linux-x64": "0.1.0-rc.3",
-    "@zseven-w/dsh-noema-win32-arm64": "0.1.0-rc.3",
-    "@zseven-w/dsh-noema-win32-x64": "0.1.0-rc.3"
+    "@zseven-w/dsh-noema-darwin-arm64": "0.1.0-rc.4",
+    "@zseven-w/dsh-noema-darwin-x64": "0.1.0-rc.4",
+    "@zseven-w/dsh-noema-linux-arm64": "0.1.0-rc.4",
+    "@zseven-w/dsh-noema-linux-x64": "0.1.0-rc.4",
+    "@zseven-w/dsh-noema-win32-arm64": "0.1.0-rc.4",
+    "@zseven-w/dsh-noema-win32-x64": "0.1.0-rc.4"
   },
   "devDependencies": {
     "@types/node": "^22.0.0",

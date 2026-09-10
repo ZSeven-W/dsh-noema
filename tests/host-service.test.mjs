@@ -306,3 +306,16 @@ test('MCP client metadata follows the npm package version', async () => {
   const manifest = await import('../package.json', { with: { type: 'json' } })
   assert.equal(DSH_NOEMA_VERSION, manifest.default.version)
 })
+
+test('server entry does not depend on host exports removed in DSH 0.1.5', async () => {
+  // DSH 0.1.5 dropped `settingsNamespace` from @deepseek-ai/dsh-settings; the
+  // plugin used to import it and the whole profile failed to boot with
+  // "does not provide an export named 'settingsNamespace'". Guard the built
+  // artifact (not the source) so a stray re-import cannot ship again.
+  const { readFile } = await import('node:fs/promises')
+  const settingsSource = await readFile(new URL('../lib/settings.js', import.meta.url), 'utf8')
+  assert.equal(/from '@deepseek-ai\/dsh-settings'/.test(settingsSource), false, 'lib/settings.js must not import runtime values from dsh-settings')
+  assert.equal(/\bsettingsNamespace\(/.test(settingsSource), false)
+  const { NOEMA_MEMORY_SETTINGS_NS } = await import('../lib/settings.js')
+  assert.equal(NOEMA_MEMORY_SETTINGS_NS, 'noema-memory')
+})
