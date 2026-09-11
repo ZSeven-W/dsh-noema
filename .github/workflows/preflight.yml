@@ -1,0 +1,36 @@
+name: DSH upgrade preflight
+
+# Would this plugin still load on the next DSH? Runs the DSH Harbor preflight
+# against the `next` dist-tag every night and against `latest` on every PR.
+# Only the built server entry is probed, so the plugin is built first.
+
+on:
+  pull_request:
+  schedule:
+    - cron: '17 3 * * *'
+  workflow_dispatch:
+    inputs:
+      dsh:
+        description: DSH version or dist-tag
+        default: next
+
+permissions:
+  contents: read
+
+jobs:
+  preflight:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm run build
+      - uses: ZSeven-W/dsh-harbor@main
+        with:
+          dsh: ${{ github.event_name == 'pull_request' && 'latest' || (inputs.dsh || 'next') }}
