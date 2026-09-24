@@ -1,16 +1,11 @@
 # Publish the root package and its six native platform packages to npm when a
 # version tag is pushed (or on a manual dispatch with `publish` checked).
 #
-# Authentication, in preference order:
-# 1. npm trusted publishing (OIDC) — the workflow proves its identity to the
-#    registry, which is why the publish job holds `id-token: write`. One-time
-#    setup on npmjs.com, under each package's Settings -> Trusted Publisher:
-#    pick GitHub Actions, then name this repository and this file
-#    (release.yml). The same `--provenance` attestation rides on it.
-# 2. The NPM_TOKEN repository secret — npm >= 11.5 falls back to it when the
-#    OIDC exchange is unavailable (no trusted publisher configured yet). The
-#    token must be an Automation (or granular publish) token, or npm will
-#    demand a one-time password no CI run can type.
+# Authentication: npm trusted publishing (OIDC) only — the publish job holds
+# `id-token: write` and there is no token secret. Each of the seven packages
+# trusts this repository, this file (release.yml) and the `npm` environment,
+# configured once (npm-oidc-setup.sh, or npmjs.com -> package -> Settings ->
+# Trusted Publisher). The same `--provenance` attestation rides on it.
 #
 # Two invariants live in scripts/publish-release.mjs rather than here, because
 # seven tarballs cannot be guarded by a single shell `if`:
@@ -18,8 +13,9 @@
 #   integrity matches, so a re-pushed tag — or a partial run that published
 #   three of seven packages — resumes instead of turning red. A version that
 #   exists with *different* bytes is a hard error.
-# - Dist-tag: a prerelease version (any `-` in it) publishes under `next`, so
-#   a bare `npm install` never hands an rc to everyone.
+# - Dist-tag: every version, prereleases included, publishes under `latest`.
+#   In this 0.x line each rc is what users should get, and OIDC can only set
+#   the tag of the publish itself.
 name: Release npm packages
 
 on:
@@ -229,6 +225,4 @@ jobs:
           path: artifacts
 
       - name: Publish native packages first, root package last
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: node scripts/publish-release.mjs artifacts

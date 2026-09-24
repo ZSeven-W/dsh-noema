@@ -17,7 +17,8 @@ for (const report of [...native, root]) {
   if (report.version !== root.version) throw new Error(`${report.name} version differs from root ${root.version}`)
 }
 
-const tag = root.version.includes('-') ? 'next' : 'latest'
+// Every release takes `latest`, prereleases included (see release.yml).
+const tag = 'latest'
 for (const report of [...native, root]) await publishOrVerify(report, tag)
 
 async function publishOrVerify(report, tag) {
