@@ -21,6 +21,7 @@ import {
   Config,
   installNoemaMemorySettings,
   resolveNoemaMemorySettings,
+  type NoemaMemoryConfig,
   type NoemaMemorySettings,
 } from './settings.js'
 import { NoemaServerManager } from './server-manager.js'
@@ -30,7 +31,7 @@ import { noemaGuidanceText, NOEMA_GUIDANCE_SECTION } from './guidance.js'
 import { registerNoemaStatusRoute } from './status-route.js'
 
 export { PLUGIN_NAME, NOEMA_TOOL_NAMES, NOEMA_MEMORY_SETTINGS_NAMESPACE, NOEMA_STATUS_ROUTE } from './names.js'
-export { NOEMA_MEMORY_SETTINGS_NS, NOEMA_MEMORY_SETTINGS_SCHEMA, NOEMA_MEMORY_SETTINGS_DEFAULTS, type NoemaMemorySettings } from './settings.js'
+export { NOEMA_MEMORY_SETTINGS_NS, NOEMA_MEMORY_SETTINGS_SCHEMA, NOEMA_MEMORY_SETTINGS_DEFAULTS, type NoemaMemoryConfig, type NoemaMemorySettings, type VolatileNoemaMemorySettings } from './settings.js'
 export { McpStdioClient, McpStdioError, MCP_PROTOCOL_VERSION } from './mcp-stdio.js'
 export { DSH_NOEMA_VERSION } from './version.js'
 export { NoemaServerManager, resolveNoemaLaunch, tokenizeCommand, type NoemaServerStatus } from './server-manager.js'
@@ -66,7 +67,7 @@ interface WebServerContext extends Context {
  * autoStart is enabled; start failures degrade to tool-call errors instead of
  * breaking profile boot.
  */
-export async function apply(ctx: Context, config?: Partial<NoemaMemorySettings>): Promise<() => Promise<void>> {
+export async function apply(ctx: Context, config?: Partial<NoemaMemoryConfig>): Promise<() => Promise<void>> {
   const hostCtx = ctx as HostContext
   const entry = config ?? {}
   let settingsSource = () => resolveNoemaMemorySettings(entry)

@@ -319,3 +319,199 @@ test('server entry does not depend on host exports removed in DSH 0.1.5', async 
   const { NOEMA_MEMORY_SETTINGS_NS } = await import('../lib/settings.js')
   assert.equal(NOEMA_MEMORY_SETTINGS_NS, 'noema-memory')
 })
+
+test('0.1.5 settings branch keeps the legacy register/scope wiring', async () => {
+  const { installNoemaMemorySettings, NOEMA_MEMORY_SETTINGS_DEFAULTS, NOEMA_MEMORY_SETTINGS_SCHEMA } = await import('../lib/settings.js')
+
+  let registered = null
+  let current = { ...NOEMA_MEMORY_SETTINGS_DEFAULTS }
+  const watchers = new Set()
+  const scope = {
+    get() { return current },
+    async update(patch) { current = { ...current, ...patch } },
+    watch(callback) { watchers.add(callback); return () => watchers.delete(callback) },
+  }
+  let cleanup
+  const settingsCtx = {
+    settings: {
+      register(ns, schema, options) {
+        registered = { ns, schema, options }
+        current = { ...current, ...(options.base ?? {}) }
+        return scope
+      },
+    },
+    effect(install) { cleanup = install(); return () => {} },
+    logger: { info() {}, warn() {} },
+  }
+  const ctx = {
+    inject(services, install) {
+      if (services.includes('settings')) install(settingsCtx)
+    },
+  }
+
+  let source
+  let writer
+  let changes = 0
+  installNoemaMemorySettings(ctx, { enabled: false }, {
+    setSource(next) { source = next },
+    setWriter(next) { writer = next },
+    onChange() { changes += 1 },
+  })
+
+  assert.equal(registered.ns, 'noema-memory')
+  assert.deepEqual(registered.options.base, { enabled: false })
+  assert.equal(typeof registered.options.validate, 'function')
+  assert.equal(registered.schema, NOEMA_MEMORY_SETTINGS_SCHEMA, 'the register call passes the plugin schema')
+  assert.equal(source().enabled, false)
+  assert.equal(changes, 1, 'the legacy branch fires onChange once after wiring')
+
+  await writer({ command: 'noema-mcp' })
+  assert.equal(source().command, 'noema-mcp')
+
+  for (const callback of [...watchers]) callback()
+  assert.equal(changes, 2, 'scope.watch forwards to onChange')
+
+  cleanup()
+  assert.equal(writer, undefined, 'unmount drops the writer')
+  assert.equal(source().command, 'bundled', 'unmount restores the fallback source')
+})
+
+test('0.2.0 settings forms branch reads volatile refs and writes through settings.update', async () => {
+  const { installNoemaMemorySettings, NOEMA_MEMORY_SETTINGS_DEFAULTS } = await import('../lib/settings.js')
+
+  const live = { ...NOEMA_MEMORY_SETTINGS_DEFAULTS, enabled: false }
+  const entry = Object.fromEntries(Object.keys(NOEMA_MEMORY_SETTINGS_DEFAULTS).map(key => [key, { get: () => live[key] }]))
+
+  const updates = []
+  let presentation = null
+  let presentationDisposed = false
+  const volatileListeners = new Set()
+  let cleanup
+  const settingsCtx = {
+    settings: {
+      async update(ns, patch) {
+        updates.push({ ns, patch: { ...patch } })
+        Object.assign(live, patch)
+      },
+      configure(next) {
+        presentation = next
+        return () => { presentationDisposed = true }
+      },
+    },
+    // The settings callback runs in a child fiber; the profile entry is only
+    // on the plugin's own fiber, so it must not be read from here.
+    fiber: {},
+    on(event, listener) {
+      if (event === 'loader/volatile-update') volatileListeners.add(listener)
+      return () => volatileListeners.delete(listener)
+    },
+    effect(install) { cleanup = install(); return () => {} },
+    logger: { info() {}, warn() {} },
+  }
+  const ctx = {
+    fiber: { entry: { options: { id: 'dsh-noema' } } },
+    inject(services, install) {
+      if (services.includes('settings')) install(settingsCtx)
+    },
+  }
+
+  let source
+  let writer
+  let changes = 0
+  installNoemaMemorySettings(ctx, entry, {
+    setSource(next) { source = next },
+    setWriter(next) { writer = next },
+    onChange() { changes += 1 },
+  })
+
+  assert.deepEqual(presentation, { auto: false }, 'noema ships its own page, so auto generation stays off')
+  assert.equal(typeof writer, 'function')
+  assert.deepEqual(source(), { ...NOEMA_MEMORY_SETTINGS_DEFAULTS, enabled: false })
+
+  // A valid write is validated, then reaches settings.update with the entry id.
+  await writer({ recallBudgetTokens: 2048 })
+  assert.deepEqual(updates, [{ ns: 'dsh-noema', patch: { recallBudgetTokens: 2048 } }])
+  assert.equal(live.recallBudgetTokens, 2048)
+  assert.equal(source().recallBudgetTokens, 2048)
+
+  // Invalid merged candidates are rejected before settings.update runs.
+  const before = updates.length
+  await assert.rejects(() => writer({ recallBudgetTokens: 0 }), /recall budget/)
+  await assert.rejects(() => writer({ command: '   ' }), /command/)
+  await assert.rejects(() => writer({ importSources: ['unknown-importer'] }), /unknown import source/)
+  assert.equal(updates.length, before, 'invalid patches must not reach settings.update')
+
+  // loader/volatile-update drives onChange, and the source reads refs fresh.
+  live.enabled = true
+  live.command = 'volatile-command'
+  for (const listener of [...volatileListeners]) listener([['enabled'], ['command']])
+  assert.equal(changes, 1)
+  assert.equal(source().enabled, true)
+  assert.equal(source().command, 'volatile-command')
+
+  // Unmounting runs the presentation disposer and drops the writer; the
+  // fallback still reads the entry's live references.
+  cleanup()
+  assert.equal(presentationDisposed, true)
+  assert.equal(writer, undefined)
+  assert.equal(source().enabled, true)
+})
+
+test('0.2.0 settings forms without a profile entry id stay read-only', async () => {
+  const { installNoemaMemorySettings, NOEMA_MEMORY_SETTINGS_DEFAULTS } = await import('../lib/settings.js')
+
+  const live = { ...NOEMA_MEMORY_SETTINGS_DEFAULTS }
+  const entry = Object.fromEntries(Object.keys(NOEMA_MEMORY_SETTINGS_DEFAULTS).map(key => [key, { get: () => live[key] }]))
+  const settingsCtx = {
+    settings: {
+      update: async () => { throw new Error('update must not be reachable') },
+      configure() { return () => {} },
+    },
+    on() { return () => {} },
+    effect(install) { install(); return () => {} },
+    logger: { info() {}, warn() {} },
+  }
+  const ctx = {
+    inject(services, install) {
+      if (services.includes('settings')) install(settingsCtx)
+    },
+  }
+
+  let source
+  let writer
+  installNoemaMemorySettings(ctx, entry, {
+    setSource(next) { source = next },
+    setWriter(next) { writer = next },
+    onChange() {},
+  })
+
+  assert.equal(writer, undefined, 'without an entry id the settings stay read-only')
+  assert.equal(source().command, 'bundled')
+})
+
+test('manifest declares no @deepseek-ai peer dependencies', async () => {
+  const { readFile } = await import('node:fs/promises')
+  const manifest = JSON.parse(await readFile(new URL('../package.json', import.meta.url), 'utf8'))
+  const peers = Object.keys(manifest.peerDependencies ?? {})
+  assert.deepEqual(peers.filter(name => name.startsWith('@deepseek-ai/')), [])
+  assert.ok(peers.includes('react') && peers.includes('react-dom'), 'react stays a peer')
+  assert.ok(Object.hasOwn(manifest, 'dshHostRuntime'), 'the inert host-runtime documentation field must exist')
+  assert.equal(manifest.dsh.client.inject.includes('@deepseek-ai/dsh-client-runtime'), false)
+})
+
+test('Config parses raw objects into volatile references on the real 0.2.0 schemastery', async () => {
+  const { Config } = await import('../lib/settings.js')
+  const parsed = Config({
+    enabled: false,
+    command: 'noema-mcp',
+    recallBudgetTokens: 2048,
+    importSources: ['codex', 'cursor'],
+  })
+  assert.equal(typeof parsed.enabled.get, 'function', 'volatile fields must expose get()')
+  assert.equal(parsed.enabled.get(), false)
+  assert.equal(parsed.command.get(), 'noema-mcp')
+  assert.equal(parsed.recallBudgetTokens.get(), 2048)
+  assert.deepEqual([...parsed.importSources.get()], ['codex', 'cursor'])
+  assert.equal(parsed.idleTimeoutMs.get(), 0, 'defaulted fields keep their schema defaults')
+  assert.equal(parsed.guidance.get(), true)
+})
