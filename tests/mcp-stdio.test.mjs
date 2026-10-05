@@ -123,6 +123,25 @@ test('closed child stdin rejects a request without an uncaught EPIPE event', asy
   }
 })
 
+test('manager reports a broken input channel as stopped and restarts on the next call', async () => {
+  const source = "import { closeSync } from 'node:fs';\n" + FAKE_SERVER.replace(
+    "    const name = msg.params.name",
+    "    const name = msg.params.name\n    if (name === 'close-input') { closeSync(0); send({ jsonrpc: '2.0', id: msg.id, result: { content: [] } }); setInterval(() => {}, 1000); return }",
+  )
+  const config = { ...NOEMA_MEMORY_SETTINGS_DEFAULTS, command: fakeServerCommand(source), idleTimeoutMs: 0, restartDelayMs: 0 }
+  const manager = new NoemaServerManager(() => config)
+  try {
+    await manager.call('close-input', {})
+    const status = await manager.status()
+    assert.equal(status.ok, false)
+    assert.equal(status.state, 'stopped')
+    const recovered = await manager.call('after-restart', {})
+    assert.equal(JSON.parse(recovered.text).name, 'after-restart')
+  } finally {
+    await manager.dispose()
+  }
+})
+
 test('call timeout rejects and the connection survives for reuse', async () => {
   const server = startFakeServer()
   const client = new McpStdioClient({ command: server.spawnargs[0], args: server.spawnargs.slice(1) })

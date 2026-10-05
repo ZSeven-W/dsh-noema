@@ -225,6 +225,9 @@ export class NoemaServerManager {
     } catch (error) {
       server = { error: error instanceof Error ? error.message : String(error) }
     }
+    if (this.client !== client || client.state !== 'running') {
+      return { ok: false, state: 'stopped', lastError: 'Noema memory server stopped during the status request' }
+    }
     return {
       ok: true,
       state: 'running',
