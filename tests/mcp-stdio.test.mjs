@@ -107,6 +107,22 @@ test('server exit rejects in-flight calls', async () => {
   }
 })
 
+test('closed child stdin rejects a request without an uncaught EPIPE event', async () => {
+  const source = FAKE_SERVER.replace(
+    "    const name = msg.params.name",
+    "    const name = msg.params.name\n    if (name === 'close-input') {\n      closeSync(0); send({ jsonrpc: '2.0', id: msg.id, result: { content: [] } }); setInterval(() => {}, 1000)\n      return\n    }",
+  )
+  const client = new McpStdioClient({ command: process.execPath, args: ['--input-type=module', '-e', "import { closeSync } from 'node:fs';\n" + source] })
+  try {
+    await client.start()
+    await client.callTool('close-input', {}, { timeoutMs: 5000 })
+    await assert.rejects(client.callTool('after-close', {}, { timeoutMs: 5000 }), /stdin failed|EPIPE|write/i)
+    assert.equal(client.state, 'exited', 'a closed input channel is not a running client')
+  } finally {
+    await client.dispose()
+  }
+})
+
 test('call timeout rejects and the connection survives for reuse', async () => {
   const server = startFakeServer()
   const client = new McpStdioClient({ command: server.spawnargs[0], args: server.spawnargs.slice(1) })

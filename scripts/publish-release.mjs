@@ -1,7 +1,7 @@
 import { spawnSync } from 'node:child_process'
 import { readFile, readdir } from 'node:fs/promises'
 import { join, resolve } from 'node:path'
-import { setTimeout as delay } from 'node:timers/promises'
+import { publishAndVerify } from './registry-convergence.mjs'
 import { platforms } from './platforms.mjs'
 
 const artifactRoot = resolve(process.argv[2] ?? 'artifacts')
@@ -33,19 +33,11 @@ async function publishOrVerify(report, tag) {
   }
 
   const tarball = join(report.directory, report.filename)
-  runNpm(['publish', tarball, '--access=public', `--tag=${tag}`, '--provenance'])
-  // The registry publishes asynchronously; visibility can lag by minutes on
-  // a cold path. Poll long enough for the CDN to settle before giving up.
-  for (let attempt = 1; attempt <= 30; attempt += 1) {
-    const visible = registryIntegrity(specifier)
-    if (visible === report.integrity) {
-      process.stdout.write(`${specifier} published with dist-tag ${tag}\n`)
-      return
-    }
-    process.stdout.write(`${specifier} not visible yet (attempt ${attempt}/30)\n`)
-    await delay(10_000)
-  }
-  throw new Error(`${specifier} was published but did not become visible with the expected integrity`)
+  await publishAndVerify({
+    specifier, version: report.version, integrity: report.integrity, tag,
+    publish: () => npmResult(['publish', tarball, '--access=public', `--tag=${tag}`, '--provenance']),
+    readState: () => ({ integrity: registryIntegrity(specifier), tag: registryTag(report.name, tag) }),
+  })
 }
 
 function registryIntegrity(specifier) {
@@ -59,9 +51,13 @@ function registryIntegrity(specifier) {
   throw new Error(`npm view ${specifier} failed:\n${output}`)
 }
 
-function runNpm(args) {
-  const result = npmResult(args)
-  if (result.status !== 0) throw new Error(`npm ${args.join(' ')} failed:\n${result.stderr || result.stdout}`)
+function registryTag(name, tag) {
+  const result = npmResult(['view', name, 'dist-tags', '--json'])
+  if (result.status !== 0) {
+    if (/E404|404 Not Found/u.test(result.stderr + result.stdout)) return undefined
+    throw new Error(`npm view ${name} dist-tags failed: ${result.stderr || result.stdout}`)
+  }
+  return JSON.parse(result.stdout)?.[tag]
 }
 
 function npmResult(args) {

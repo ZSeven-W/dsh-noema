@@ -224,5 +224,8 @@ jobs:
         with:
           path: artifacts
 
+      - name: Verify registry convergence
+        run: node --test tests/registry-convergence.test.mjs
+
       - name: Publish native packages first, root package last
         run: node scripts/publish-release.mjs artifacts

@@ -178,6 +178,14 @@ export class McpStdioClient {
     })
     this.child = child
     this.state = 'starting'
+    // Writable streams emit `error` as well as invoking the write callback.
+    // An exiting child can close stdin between the state check and write;
+    // handling only its callback still leaves an uncaught EPIPE event.
+    child.stdin.on('error', error => {
+      this.rejectPending(new McpStdioError('Noema MCP stdin failed: ' + error.message, { cause: error }))
+      this.state = 'exited'
+      void this.dispose().catch(() => {})
+    })
     this.exitCode = undefined
     this.exitSignal = undefined
     await new Promise<void>((resolve, reject) => {
