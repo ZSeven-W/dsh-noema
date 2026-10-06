@@ -1,6 +1,6 @@
 {
   "name": "@zseven-w/dsh-noema",
-  "version": "0.1.0-rc.5",
+  "version": "0.1.0-rc.6",
   "description": "Noema long-term memory plugin for DSH: durable, inspectable agent memory with recall tools and a settings page.",
   "license": "MIT",
   "keywords": [
@@ -100,12 +100,12 @@
     "note": "Inert documentation only; host packages are intentionally absent from dependencies and peerDependencies."
   },
   "optionalDependencies": {
-    "@zseven-w/dsh-noema-darwin-arm64": "0.1.0-rc.5",
-    "@zseven-w/dsh-noema-darwin-x64": "0.1.0-rc.5",
-    "@zseven-w/dsh-noema-linux-arm64": "0.1.0-rc.5",
-    "@zseven-w/dsh-noema-linux-x64": "0.1.0-rc.5",
-    "@zseven-w/dsh-noema-win32-arm64": "0.1.0-rc.5",
-    "@zseven-w/dsh-noema-win32-x64": "0.1.0-rc.5"
+    "@zseven-w/dsh-noema-darwin-arm64": "0.1.0-rc.6",
+    "@zseven-w/dsh-noema-darwin-x64": "0.1.0-rc.6",
+    "@zseven-w/dsh-noema-linux-arm64": "0.1.0-rc.6",
+    "@zseven-w/dsh-noema-linux-x64": "0.1.0-rc.6",
+    "@zseven-w/dsh-noema-win32-arm64": "0.1.0-rc.6",
+    "@zseven-w/dsh-noema-win32-x64": "0.1.0-rc.6"
   },
   "devDependencies": {
     "@deepseek-ai/cordis": "~4.0.4",
