@@ -55,6 +55,24 @@ function isLoopbackHostname(hostname: string): boolean {
   return isIpv4LoopbackAddress(hostname)
 }
 
+/**
+ * Canonicalize a loopback authority so `localhost` and `127.0.0.1` (and the
+ * `[::1]` form) compare equal: the same machine is reachable under several
+ * host spellings, and the browser sends whichever one the page was opened with.
+ * Only loopback hostnames are rewritten, so a remote origin still fails to
+ * match a loopback Host. The port is kept, so a stale tab on an old port stays
+ * rejected. Anything unparsable is returned unchanged and then fails closed.
+ */
+function normalizeLoopbackOrigin(host: string): string {
+  try {
+    const parsed = new URL('http://' + host)
+    if (!isLoopbackHostname(parsed.hostname)) return host
+    return '127.0.0.1' + (parsed.port === '' ? '' : ':' + parsed.port)
+  } catch {
+    return host
+  }
+}
+
 function requestAuthority(req: IncomingMessage): URL | undefined {
   const host = req.headers.host
   if (typeof host !== 'string') return undefined
@@ -87,7 +105,7 @@ function isTrustedBrowserRequest(req: IncomingMessage, requireOrigin: boolean): 
   try {
     const parsed = new URL(origin)
     return (parsed.protocol === 'http:' || parsed.protocol === 'https:')
-      && parsed.host === authority.host
+      && normalizeLoopbackOrigin(parsed.host) === normalizeLoopbackOrigin(authority.host)
   } catch {
     return false
   }
