@@ -229,6 +229,56 @@ test('plugin mounts settings, tools, guidance, and the status route', async () =
   })
   assert.equal(hexadecimalLoopback.statusCode, 200)
 
+  // Loopback host spellings are the same origin: a page opened on
+  // http://localhost:<port> sends that as its Origin, while the Host header may
+  // arrive as 127.0.0.1:<port>. Comparing the raw strings rejects a same-origin
+  // request from the local machine, so both sides are canonicalized before the
+  // comparison. `configure` is used here because it answers from settings and
+  // never reaches the MCP transport, so these cases stay hermetic.
+  const localhostOrigin = await callRoute(routeRegistrations[0], 'POST', {
+    action: 'configure',
+    field: 'recallBudgetTokens',
+    value: 1024,
+  }, { origin: 'http://localhost:3080' })
+  assert.equal(localhostOrigin.statusCode, 200)
+
+  const ipv6LoopbackOrigin = await callRoute(routeRegistrations[0], 'POST', {
+    action: 'configure',
+    field: 'recallBudgetTokens',
+    value: 1024,
+  }, { origin: 'http://[::1]:3080' })
+  assert.equal(ipv6LoopbackOrigin.statusCode, 200)
+
+  const localhostHost = await callRoute(routeRegistrations[0], 'POST', {
+    action: 'configure',
+    field: 'recallBudgetTokens',
+    value: 1024,
+  }, { host: 'localhost:3080', origin: 'http://127.0.0.1:3080' })
+  assert.equal(localhostHost.statusCode, 200)
+
+  // Canonicalizing must not swap the port: a stale tab pointing at the instance's
+  // previous port stays rejected, and neither does it widen to remote origins.
+  const stalePortOrigin = await callRoute(routeRegistrations[0], 'POST', {
+    action: 'configure',
+    field: 'recallBudgetTokens',
+    value: 1024,
+  }, { origin: 'http://127.0.0.1:3081' })
+  assert.equal(stalePortOrigin.statusCode, 403)
+
+  const stalePortAliased = await callRoute(routeRegistrations[0], 'POST', {
+    action: 'configure',
+    field: 'recallBudgetTokens',
+    value: 1024,
+  }, { origin: 'http://localhost:3081' })
+  assert.equal(stalePortAliased.statusCode, 403)
+
+  const remoteOriginOnLoopbackPort = await callRoute(routeRegistrations[0], 'POST', {
+    action: 'configure',
+    field: 'recallBudgetTokens',
+    value: 1024,
+  }, { origin: 'http://127.0.0.1.attacker.example:3080' })
+  assert.equal(remoteOriginOnLoopbackPort.statusCode, 403)
+
   await disposePlugin()
   assert.deepEqual(toolDisposers.length, 15, 'all tool disposers must run')
 })
